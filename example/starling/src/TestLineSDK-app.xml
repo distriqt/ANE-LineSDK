@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/30.0">
+	<id>com.distriqt.test</id>
+	<filename>TestLineSDK</filename>
+	<name>TestLineSDK</name>
+	<versionNumber>0.0.1</versionNumber>
+
+    <initialWindow>
+        <content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
+        <autoOrients>true</autoOrients>
+        <fullScreen>false</fullScreen>
+        <visible>true</visible>
+        <renderMode>direct</renderMode>
+    </initialWindow>
+
+	<icon>
+		<image16x16>icons/icon16x16.png</image16x16>
+		<image29x29>icons/icon29x29.png</image29x29>
+		<image32x32>icons/icon32x32.png</image32x32>
+		<image36x36>icons/icon36x36.png</image36x36>
+		<image48x48>icons/icon48x48.png</image48x48>
+		<image57x57>icons/icon57x57.png</image57x57>
+		<image72x72>icons/icon72x72.png</image72x72>
+		<image114x114>icons/icon114x114.png</image114x114>
+		<image128x128>icons/icon128x128.png</image128x128>
+		<image512x512>icons/icon512x512.png</image512x512>
+	</icon>
+
+    <iPhone>
+        <InfoAdditions><![CDATA[
+            <key>UIDeviceFamily</key>
+            <array>
+                <string>1</string>
+                <string>2</string>
+            </array>
+
+            <key>NSAppTransportSecurity</key>
+            <dict>
+                <key>NSAllowsArbitraryLoads</key>
+                <true/>
+            </dict>
+
+            <key>LineSDKConfig</key>
+            <dict>
+                <key>ChannelID</key>
+                <string>1602220840</string>
+            </dict>
+
+            <key>CFBundleURLTypes</key>
+            <array>
+                <dict>
+                    <key>CFBundleTypeRole</key>
+                    <string>Editor</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>line3rdp.com.distriqt.test</string>
+                    </array>
+                </dict>
+            </array>
+            <key>LSApplicationQueriesSchemes</key>
+            <array>
+                <string>lineauth</string>
+                <string>line3rdp.com.distriqt.test</string>
+            </array>
+
+        ]]></InfoAdditions>
+        <requestedDisplayResolution>high</requestedDisplayResolution>
+        <Entitlements>
+            <![CDATA[
+
+                <key>get-task-allow</key>
+                <true/>
+
+                <key>keychain-access-groups</key>
+                <array>
+                    <string>X5LW23Q6CJ.*</string>
+                </array>
+
+            ]]>
+        </Entitlements>
+    </iPhone>
+	
+	<android>
+		<manifestAdditions><![CDATA[
+			<manifest android:installLocation="auto" >
+				<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="27" />
+				<uses-permission android:name="android.permission.INTERNET"/>
+				
+				<application android:hardwareAccelerated="true">
+
+                    <activity
+                        android:name="com.linecorp.linesdk.auth.internal.LineAuthenticationActivity"
+                        android:configChanges="orientation|screenSize|keyboardHidden"
+                        android:exported="false"
+                        android:launchMode="singleTop"
+                        android:theme="@style/LineSdk_AuthenticationActivity" />
+
+                    <activity
+                        android:name="com.linecorp.linesdk.auth.internal.LineAuthenticationCallbackActivity"
+                        android:configChanges="orientation|screenSize|keyboardHidden"
+                        android:exported="true" >
+                        <intent-filter>
+                            <action android:name="android.intent.action.VIEW" />
+                            <category android:name="android.intent.category.DEFAULT" />
+                            <category android:name="android.intent.category.BROWSABLE" />
+                            <data android:scheme="lineauth" />
+                        </intent-filter>
+                    </activity>
+
+				</application>
+
+			</manifest>
+		]]></manifestAdditions>
+	</android>
+	
+	<extensions>
+		<extensionID>com.distriqt.Core</extensionID>
+
+		<extensionID>com.distriqt.LineSDK</extensionID>
+
+        <extensionID>com.distriqt.androidsupport.V4</extensionID>
+        <extensionID>com.distriqt.androidsupport.AppCompatV7</extensionID>
+        <extensionID>com.distriqt.androidsupport.CustomTabs</extensionID>
+	</extensions>
+	
+</application>
