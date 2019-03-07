@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/30.0">
+<application xmlns="http://ns.adobe.com/air/application/32.0">
 	<id>com.distriqt.test</id>
 	<filename>TestLineSDK</filename>
 	<name>TestLineSDK</name>
-	<versionNumber>0.0.1</versionNumber>
+	<versionNumber>0.0.2</versionNumber>
 
     <initialWindow>
         <content>[This value will be overwritten by Flash Builder in the output app.xml]</content>
@@ -57,9 +57,10 @@
                     </array>
                 </dict>
             </array>
+
             <key>LSApplicationQueriesSchemes</key>
             <array>
-                <string>lineauth</string>
+                <string>lineauth2</string>
                 <string>line3rdp.com.distriqt.test</string>
             </array>
 

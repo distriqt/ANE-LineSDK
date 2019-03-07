@@ -100,7 +100,7 @@ package com.distriqt.test.linesdk
 			{
 				LineSDK.instance.addEventListener( LineSDKEvent.LOGIN_COMPLETE, loginCompleteHandler );
 				LineSDK.instance.addEventListener( LineSDKEvent.LOGIN_ERROR, loginErrorHandler );
-				LineSDK.instance.startLogin();
+				LineSDK.instance.startLogin( ["profile", "openid" ] );
 			}
 		}
 		

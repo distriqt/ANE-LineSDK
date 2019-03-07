@@ -137,6 +137,21 @@ The `BUNDLE_IDENTIFIER` is the **App ID** and should be the same as your air app
 
 
 
+### Dynamic Framework
+
+The Line iOS SDK is implemented as a dynamic framework. This means that the framework must be packaged and signed with your application for runtime (dynamic) execution.
+
+To correctly package a dynamic framework with AIR you need to create a `Frameworks` directory at the root level of your application package i.e. alongside your SWF. Make sure you name the directory exactly as listed with correct capitalisation.
+
+In this directory, place all of the files contained in the build/Frameworks directory alongside the ANE, including the framework and dependent dylib files.
+
+Make sure you are using at least version 30 of the AIR SDK, so when packaging your IPA AIR will sign the dynamic frameworks with your application identity.
+
+>
+> Due to some issues with AIR signing dynamic frameworks you will need to resign your IPA before it can be correctly installed on a debug device or submitted to the store. > See the ![](iOS Signing|i.iOS Signing) section for information.
+>
+
+
 ---
 
 ## Android
