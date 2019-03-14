@@ -1,5 +1,12 @@
 
 
+###### 2019.03.14 [v2.0.060]
+
+```
+Updated iOS Frameworks for distribution issue (#3)
+```
+
+
 ###### 2019.03.07 [v2.0.059]
 
 ```
