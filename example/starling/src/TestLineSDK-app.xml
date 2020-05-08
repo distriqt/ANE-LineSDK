@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/32.0">
+<application xmlns="http://ns.adobe.com/air/application/33.1">
 	<id>com.distriqt.test</id>
 	<filename>TestLineSDK</filename>
 	<name>TestLineSDK</name>
@@ -84,7 +84,7 @@
 	<android>
 		<manifestAdditions><![CDATA[
 			<manifest android:installLocation="auto" >
-				<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="27" />
+				<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="28" />
 				<uses-permission android:name="android.permission.INTERNET"/>
 				
 				<application android:hardwareAccelerated="true">
@@ -119,9 +119,9 @@
 
 		<extensionID>com.distriqt.LineSDK</extensionID>
 
-        <extensionID>com.distriqt.androidsupport.V4</extensionID>
-        <extensionID>com.distriqt.androidsupport.AppCompatV7</extensionID>
-        <extensionID>com.distriqt.androidsupport.CustomTabs</extensionID>
+        <extensionID>androidx.core</extensionID>
+        <extensionID>androidx.appcompat</extensionID>
+        <extensionID>androidx.browser</extensionID>
 	</extensions>
 	
 </application>
