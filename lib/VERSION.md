@@ -1,1 +1,1 @@
-| com.distriqt.LineSDK | 3.0.069 |  |  |
+| com.distriqt.LineSDK | 3.1.072 |  |  |

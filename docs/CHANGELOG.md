@@ -1,5 +1,12 @@
 
 
+###### 2020.06.02 [v3.1.073]
+
+```
+Updated iOS library to the latest release (#7)
+```
+
+
 ###### 2020.05.08 [v3.0.070]
 
 ```
