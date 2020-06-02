@@ -1,0 +1,2846 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.2.2 (swiftlang-1103.0.32.6 clang-1103.0.32.51)
+// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name LineSDKObjC
+import CommonCrypto
+@_exported import Foundation
+@_exported import LineSDKObjC
+import SafariServices
+import Security
+import Swift
+import UIKit
+@objc extension NSNotification {
+  @objc public static let LineSDKAccessTokenDidUpdate: Foundation.Notification.Name
+  @objc public static let LineSDKAccessTokenDidRemove: Foundation.Notification.Name
+}
+@objc extension NSNotification {
+  @objc public static let LineSDKOldAccessTokenKey: Swift.String
+  @objc public static let LineSDKNewAccessTokenKey: Swift.String
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKAccessTokenStore : ObjectiveC.NSObject {
+  @objc public static let sharedStore: LineSDKObjC.LineSDKAccessTokenStore
+  @objc public var currentToken: LineSDKObjC.LineSDKAccessToken? {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKCallbackQueue : ObjectiveC.NSObject {
+  @objc public static let asyncMain: LineSDKObjC.LineSDKCallbackQueue
+  @objc public static let currentMainOrAsync: LineSDKObjC.LineSDKCallbackQueue
+  @objc public static let untouch: LineSDKObjC.LineSDKCallbackQueue
+  @objc public static func callbackQueue(dispatchQueue: Dispatch.DispatchQueue) -> LineSDKObjC.LineSDKCallbackQueue
+  @objc public static func callbackQueue(operationQueue: Foundation.OperationQueue) -> LineSDKObjC.LineSDKCallbackQueue
+  @objc deinit
+  @objc override dynamic public init()
+}
+@_hasMissingDesignatedInitializers public class LoginManager {
+  public static let shared: LineSDKObjC.LoginManager
+  public var currentProcess: LineSDKObjC.LoginProcess? {
+    get
+  }
+  public var isSetupFinished: Swift.Bool {
+    get
+  }
+  public var isAuthorized: Swift.Bool {
+    get
+  }
+  public var isAuthorizing: Swift.Bool {
+    get
+  }
+  public func setup(channelID: Swift.String, universalLinkURL: Foundation.URL?)
+  @discardableResult
+  public func login(permissions: Swift.Set<LineSDKObjC.LoginPermission> = [.profile], in viewController: UIKit.UIViewController? = nil, parameters: LineSDKObjC.LoginManager.Parameters = .init(), completionHandler completion: @escaping (Swift.Result<LineSDKObjC.LoginResult, LineSDKObjC.LineSDKError>) -> Swift.Void) -> LineSDKObjC.LoginProcess?
+  public func logout(completionHandler completion: @escaping (Swift.Result<(), LineSDKObjC.LineSDKError>) -> Swift.Void)
+  public func application(_ app: UIKit.UIApplication, open url: Foundation.URL?, options: [UIKit.UIApplication.OpenURLOptionsKey : Any] = [:]) -> Swift.Bool
+  @available(*, deprecated, message: "Set the preferred language in a `LoginManager.Parameters` value and use\n`login(permissions:in:parameters:completionHandler:)` instead.\")")
+  public var preferredWebPageLanguage: LineSDKObjC.LoginManager.WebPageLanguage?
+  @available(*, deprecated, message: "Convert the `options` to a `LoginManager.Parameters` value and\nuse `login(permissions:in:parameters:completionHandler:)` instead.\")")
+  @discardableResult
+  public func login(permissions: Swift.Set<LineSDKObjC.LoginPermission> = [.profile], in viewController: UIKit.UIViewController? = nil, options: LineSDKObjC.LoginManagerOptions, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.LoginResult, LineSDKObjC.LineSDKError>) -> Swift.Void) -> LineSDKObjC.LoginProcess?
+  @objc deinit
+}
+public struct GetFriendsRequest : LineSDKObjC.Request {
+  public enum Sort : Swift.String {
+    case name
+    case relation
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public init(sort: LineSDKObjC.GetFriendsRequest.Sort? = nil, pageToken: Swift.String? = nil)
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+  public struct Response : Swift.Decodable {
+    public let friends: [LineSDKObjC.User]
+    public let pageToken: Swift.String?
+    public init(from decoder: Swift.Decoder) throws
+  }
+}
+public struct HexColor : Swift.Codable {
+  public let rawValue: Swift.String
+  public let color: UIKit.UIColor
+  public init(_ color: UIKit.UIColor)
+  public init(rawValue: Swift.String, default: UIKit.UIColor)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension HexColor : Swift.Equatable {
+  public static func == (lhs: LineSDKObjC.HexColor, rhs: LineSDKObjC.HexColor) -> Swift.Bool
+}
+extension HexColor : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.String)
+  public typealias StringLiteralType = Swift.String
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.String
+  public typealias UnicodeScalarLiteralType = Swift.String
+}
+public struct MessageSender : Swift.Codable {
+  public var label: Swift.String
+  public var iconURL: Foundation.URL
+  public var linkURL: Foundation.URL?
+  public init(label: Swift.String, iconURL: Foundation.URL, linkURL: Foundation.URL?)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc @objcMembers public class LineSDKTemplateImageCarouselPayloadColumn : ObjectiveC.NSObject {
+  @objc public var imageURL: Foundation.URL
+  @objc public var action: LineSDKObjC.LineSDKMessageAction?
+  @objc public init?(imageURL: Foundation.URL, action: LineSDKObjC.LineSDKMessageAction?)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class LineSDKTemplateImageCarouselPayload : LineSDKObjC.LineSDKTemplateMessagePayload {
+  @objc public var columns: [LineSDKObjC.LineSDKTemplateImageCarouselPayloadColumn]
+  @objc public init(columns: [LineSDKObjC.LineSDKTemplateImageCarouselPayloadColumn])
+  @objc public func addColumn(_ column: LineSDKObjC.LineSDKTemplateImageCarouselPayloadColumn)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKTemplateMessage : LineSDKObjC.LineSDKMessage {
+  @objc public var altText: Swift.String
+  @objc public var payload: LineSDKObjC.LineSDKTemplateMessagePayload
+  @objc public init(altText: Swift.String, payload: LineSDKObjC.LineSDKTemplateMessagePayload)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKTemplateMessagePayload : ObjectiveC.NSObject {
+  @objc public var buttonsPayload: LineSDKObjC.LineSDKTemplateButtonsPayload? {
+    @objc get
+  }
+  @objc public var confirmPayload: LineSDKObjC.LineSDKTemplateConfirmPayload? {
+    @objc get
+  }
+  @objc public var carouselPayload: LineSDKObjC.LineSDKTemplateCarouselPayload? {
+    @objc get
+  }
+  @objc public var imageCarouselPayload: LineSDKObjC.LineSDKTemplateImageCarouselPayload? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum LineSDKTemplateMessagePayloadImageAspectRatio : Swift.Int {
+  case none
+  case rectangle
+  case square
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum LineSDKTemplateMessagePayloadImageContentMode : Swift.Int {
+  case none
+  case aspectFill
+  case aspectFit
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKAuthAPI : ObjectiveC.NSObject {
+  @objc public static func refreshAccessToken(completionHandler completion: @escaping (LineSDKObjC.LineSDKAccessToken?, Swift.Error?) -> Swift.Void)
+  @objc public static func refreshAccessToken(callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKAccessToken?, Swift.Error?) -> Swift.Void)
+  @objc public static func revokeAccessToken(completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc public static func revokeAccessToken(_ token: Swift.String?, completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc public static func revokeAccessToken(_ token: Swift.String?, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc public static func revokeRefreshToken(completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc public static func revokeRefreshToken(_ token: Swift.String?, completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc public static func revokeRefreshToken(_ token: Swift.String?, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc public static func verifyAccessToken(completionHandler completion: @escaping (LineSDKObjC.LineSDKAccessTokenVerifyResult?, Swift.Error?) -> Swift.Void)
+  @objc public static func verifyAccessToken(_ token: Swift.String?, completionHandler completion: @escaping (LineSDKObjC.LineSDKAccessTokenVerifyResult?, Swift.Error?) -> Swift.Void)
+  @objc public static func verifyAccessToken(_ token: Swift.String?, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKAccessTokenVerifyResult?, Swift.Error?) -> Swift.Void)
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension TemplateMessagePayload {
+  public enum ImageAspectRatio : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case rectangle
+    case square
+    public static let defaultCase: LineSDKObjC.TemplateMessagePayload.ImageAspectRatio
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum ImageContentMode : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case aspectFill
+    case aspectFit
+    public static let defaultCase: LineSDKObjC.TemplateMessagePayload.ImageContentMode
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+}
+public struct Constant {
+  public static let SDKVersion: Swift.String
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKAPI : ObjectiveC.NSObject {
+  @objc public static func getProfile(completionHandler completion: @escaping (LineSDKObjC.LineSDKUserProfile?, Swift.Error?) -> Swift.Void)
+  @objc public static func getProfile(callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKUserProfile?, Swift.Error?) -> Swift.Void)
+  @objc public static func getFriends(pageToken: Swift.String?, completionHandler completion: @escaping (LineSDKObjC.LineSDKGetFriendsResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getFriends(sort: LineSDKObjC.LineSDKGetFriendsRequestSort, pageToken: Swift.String?, completionHandler completion: @escaping (LineSDKObjC.LineSDKGetFriendsResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getFriends(sort: LineSDKObjC.LineSDKGetFriendsRequestSort, pageToken: Swift.String?, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKGetFriendsResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getApproversInFriends(pageToken: Swift.String?, completionHandler completion: @escaping (LineSDKObjC.LineSDKGetApproversInFriendsResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getApproversInFriends(pageToken: Swift.String?, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKGetApproversInFriendsResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getGroups(pageToken: Swift.String?, completionHandler completion: @escaping (LineSDKObjC.LineSDKGetGroupsResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getGroups(pageToken: Swift.String?, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKGetGroupsResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getApproversInGroup(groupID: Swift.String, pageToken: Swift.String?, completionHandler completion: @escaping (LineSDKObjC.LineSDKGetApproversInGroupResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getApproversInGroup(groupID: Swift.String, pageToken: Swift.String?, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKGetApproversInGroupResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func sendMessages(_ messages: [LineSDKObjC.LineSDKMessage], to chatID: Swift.String, completionHandler completion: @escaping (LineSDKObjC.LineSDKPostSendMessagesResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func sendMessages(_ messages: [LineSDKObjC.LineSDKMessage], to chatID: Swift.String, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKPostSendMessagesResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func multiSendMessages(_ messages: [LineSDKObjC.LineSDKMessage], to userIDs: [Swift.String], completionHandler completion: @escaping (LineSDKObjC.LineSDKPostMultisendMessagesResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func multiSendMessages(_ messages: [LineSDKObjC.LineSDKMessage], to userIDs: [Swift.String], callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKPostMultisendMessagesResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getBotFriendshipStatus(completionHandler completion: @escaping (LineSDKObjC.LineSDKGetBotFriendshipStatusResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getBotFriendshipStatus(callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKGetBotFriendshipStatusResponse?, Swift.Error?) -> Swift.Void)
+  @objc public static func getMessageSendingOneTimeToken(userIDs: [Swift.String], completionHander completion: @escaping (LineSDKObjC.LineSDKMessageSendingToken?, Swift.Error?) -> Swift.Void)
+  @objc public static func getMessageSendingOneTimeToken(userIDs: [Swift.String], callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHander completion: @escaping (LineSDKObjC.LineSDKMessageSendingToken?, Swift.Error?) -> Swift.Void)
+  @objc public static func multiSendMessages(_ messages: [LineSDKObjC.LineSDKMessage], withMessageToken token: LineSDKObjC.LineSDKMessageSendingToken, completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc public static func multiSendMessages(_ messages: [LineSDKObjC.LineSDKMessage], withMessageToken token: LineSDKObjC.LineSDKMessageSendingToken, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension LineSDKAPI {
+  @objc @available(*, deprecated, renamed: "LineSDKAuthAPI.refreshAccessToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods in `LineSDKAuthAPI` instead.")
+  public static func refreshAccessToken(completionHandler completion: @escaping (LineSDKObjC.LineSDKAccessToken?, Swift.Error?) -> Swift.Void)
+  @objc @available(*, deprecated, renamed: "LineSDKAuthAPI.refreshAccessToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods in `LineSDKAuthAPI` instead.")
+  public static func refreshAccessToken(callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKAccessToken?, Swift.Error?) -> Swift.Void)
+  @objc @available(*, deprecated, renamed: "LineSDKAuthAPI.revokeAccessToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods in `LineSDKAuthAPI` instead.")
+  public static func revokeAccessToken(completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc @available(*, deprecated, renamed: "LineSDKAuthAPI.revokeAccessToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods in `LineSDKAuthAPI` instead.")
+  public static func revokeAccessToken(_ token: Swift.String?, completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc @available(*, deprecated, renamed: "LineSDKAuthAPI.revokeAccessToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods in `LineSDKAuthAPI` instead.")
+  public static func revokeAccessToken(_ token: Swift.String?, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc @available(*, deprecated, renamed: "LineSDKAuthAPI.verifyAccessToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods in `LineSDKAuthAPI` instead.")
+  public static func verifyAccessToken(completionHandler completion: @escaping (LineSDKObjC.LineSDKAccessTokenVerifyResult?, Swift.Error?) -> Swift.Void)
+  @objc @available(*, deprecated, renamed: "LineSDKAuthAPI.verifyAccessToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods in `LineSDKAuthAPI` instead.")
+  public static func verifyAccessToken(_ token: Swift.String?, completionHandler completion: @escaping (LineSDKObjC.LineSDKAccessTokenVerifyResult?, Swift.Error?) -> Swift.Void)
+  @objc @available(*, deprecated, renamed: "LineSDKAuthAPI.verifyAccessToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods in `LineSDKAuthAPI` instead.")
+  public static func verifyAccessToken(_ token: Swift.String?, callbackQueue queue: LineSDKObjC.LineSDKCallbackQueue, completionHandler completion: @escaping (LineSDKObjC.LineSDKAccessTokenVerifyResult?, Swift.Error?) -> Swift.Void)
+}
+@objc @objcMembers public class LineSDKTemplateButtonsPayload : LineSDKObjC.LineSDKTemplateMessagePayload {
+  @objc public var text: Swift.String
+  @objc public var title: Swift.String?
+  @objc public var actions: [LineSDKObjC.LineSDKMessageAction]
+  @objc public var defaultAction: LineSDKObjC.LineSDKMessageAction?
+  @objc public var thumbnailImageURL: Foundation.URL?
+  @objc public var imageAspectRatio: LineSDKObjC.LineSDKTemplateMessagePayloadImageAspectRatio
+  @objc public var imageContentMode: LineSDKObjC.LineSDKTemplateMessagePayloadImageContentMode
+  @objc public var imageBackgroundColor: LineSDKObjC.LineSDKHexColor?
+  @objc public var sender: LineSDKObjC.LineSDKMessageSender?
+  @objc public init(title: Swift.String?, text: Swift.String, actions: [LineSDKObjC.LineSDKMessageAction])
+  @objc override dynamic public init()
+  @objc deinit
+}
+public protocol MessageConvertible {
+  var message: LineSDKObjC.Message { get }
+}
+public protocol AltTextMessageConvertible {
+  func messageWithAltText(_ text: Swift.String) -> LineSDKObjC.Message
+}
+public protocol TemplateMessageConvertible : LineSDKObjC.AltTextMessageConvertible {
+  var payload: LineSDKObjC.TemplateMessagePayload { get }
+}
+extension TemplateMessageConvertible {
+  public func messageWithAltText(_ text: Swift.String) -> LineSDKObjC.Message
+}
+public protocol FlexMessageConvertible : LineSDKObjC.AltTextMessageConvertible {
+  var container: LineSDKObjC.FlexMessageContainer { get }
+}
+extension FlexMessageConvertible {
+  public func messageWithAltText(_ text: Swift.String) -> LineSDKObjC.Message
+}
+public protocol FlexMessageComponentConvertible {
+  var component: LineSDKObjC.FlexMessageComponent { get }
+}
+public protocol MessageActionConvertible {
+  var action: LineSDKObjC.MessageAction { get }
+}
+public protocol MessageActionContainer {
+  var action: LineSDKObjC.MessageAction? { get set }
+}
+extension MessageActionContainer {
+  public mutating func setAction(_ value: LineSDKObjC.MessageActionConvertible?)
+}
+extension FlexMessageComponent {
+  public typealias Ratio = Swift.UInt
+  public enum Layout : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case horizontal
+    case vertical
+    case baseline
+    public static let defaultCase: LineSDKObjC.FlexMessageComponent.Layout
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public typealias Spacing = LineSDKObjC.FlexMessageComponent.Margin
+  public enum Margin : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case none, xs, sm, md, lg, xl, xxl
+    public static let defaultCase: LineSDKObjC.FlexMessageComponent.Margin
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum Size : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case xxs, xs, sm, md, lg, xl, xxl, xl3, xl4, xl5, full
+    public static let defaultCase: LineSDKObjC.FlexMessageComponent.Size
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum Alignment : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case start, end, center
+    public static let defaultCase: LineSDKObjC.FlexMessageComponent.Alignment
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum Gravity : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case top, bottom, center
+    public static let defaultCase: LineSDKObjC.FlexMessageComponent.Gravity
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum Weight : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case regular, bold
+    public static let defaultCase: LineSDKObjC.FlexMessageComponent.Weight
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum Height : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case sm, md
+    public static let defaultCase: LineSDKObjC.FlexMessageComponent.Height
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum AspectRatio : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case ratio_1x1
+    case ratio_1_51x1
+    case ratio_1_91x1
+    case ratio_4x3
+    case ratio_16x9
+    case ratio_20x13
+    case ratio_2x1
+    case ratio_3x1
+    case ratio_3x4
+    case ratio_9x16
+    case ratio_1x2
+    case ratio_1x3
+    public static var defaultCase: LineSDKObjC.FlexMessageComponent.AspectRatio
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum AspectMode : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case fill
+    case fit
+    public static var defaultCase: LineSDKObjC.FlexMessageComponent.AspectMode
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKJWT : ObjectiveC.NSObject {
+  @objc final public let payload: LineSDKObjC.LineSDKJWTPayload
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKJWTPayload : ObjectiveC.NSObject {
+  @objc public func getString(forKey key: Swift.String) -> Swift.String?
+  @objc public func getNumber(forKey key: Swift.String) -> Foundation.NSNumber?
+  @objc public var issuer: Swift.String? {
+    @objc get
+  }
+  @objc public var subject: Swift.String? {
+    @objc get
+  }
+  @objc public var audience: Swift.String? {
+    @objc get
+  }
+  @objc public var expiration: Foundation.Date? {
+    @objc get
+  }
+  @objc public var issueAt: Foundation.Date? {
+    @objc get
+  }
+  @objc public var name: Swift.String? {
+    @objc get
+  }
+  @objc public var picture: Foundation.URL? {
+    @objc get
+  }
+  @objc public var email: Swift.String? {
+    @objc get
+  }
+  @objc public var amr: [Swift.String]? {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct GetShareFriendsRequest : LineSDKObjC.Request {
+  public enum Sort : Swift.String {
+    case name
+    case relation
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public init(sort: LineSDKObjC.GetShareFriendsRequest.Sort? = nil, pageToken: Swift.String? = nil)
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+  public struct Response : Swift.Decodable {
+    public let friends: [LineSDKObjC.User]
+    public let pageToken: Swift.String?
+    public init(from decoder: Swift.Decoder) throws
+  }
+}
+public struct GetGroupsRequest : LineSDKObjC.Request {
+  public init(pageToken: Swift.String? = nil)
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+  public struct Response : Swift.Decodable {
+    public let groups: [LineSDKObjC.Group]
+    public let pageToken: Swift.String?
+    public init(from decoder: Swift.Decoder) throws
+  }
+}
+extension API {
+  public enum Auth {
+    public static func refreshAccessToken(callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.AccessToken, LineSDKObjC.LineSDKError>) -> Swift.Void)
+    public static func revokeAccessToken(_ token: Swift.String? = nil, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<(), LineSDKObjC.LineSDKError>) -> Swift.Void)
+    public static func revokeRefreshToken(_ refreshToken: Swift.String? = nil, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<(), LineSDKObjC.LineSDKError>) -> Swift.Void)
+    public static func verifyAccessToken(_ token: Swift.String? = nil, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.AccessTokenVerifyResult, LineSDKObjC.LineSDKError>) -> Swift.Void)
+  }
+}
+public struct VideoMessage : Swift.Codable {
+  public let originalContentURL: Foundation.URL
+  public let previewImageURL: Foundation.URL
+  public init(originalContentURL: Foundation.URL, previewImageURL: Foundation.URL) throws
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension VideoMessage : LineSDKObjC.MessageConvertible {
+  public var message: LineSDKObjC.Message {
+    get
+  }
+}
+@objc @objcMembers public class LineSDKTemplateConfirmPayload : LineSDKObjC.LineSDKTemplateMessagePayload {
+  @objc public var text: Swift.String
+  @objc public var confirmAction: LineSDKObjC.LineSDKMessageAction
+  @objc public var cancelAction: LineSDKObjC.LineSDKMessageAction
+  @objc public init(text: Swift.String, confirmAction: LineSDKObjC.LineSDKMessageAction, cancelAction: LineSDKObjC.LineSDKMessageAction)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct PostSendMessagesRequest : LineSDKObjC.Request {
+  public let chatID: Swift.String
+  public let messages: [LineSDKObjC.Message]
+  public init(chatID: Swift.String, messages: [LineSDKObjC.MessageConvertible])
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+  public struct Response : Swift.Decodable {
+    public let status: LineSDKObjC.MessageSendingStatus
+    public init(from decoder: Swift.Decoder) throws
+  }
+}
+public enum MessageSendingStatus : Swift.Decodable, Swift.Equatable {
+  case ok
+  case discarded
+  case unknown(Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public var isOK: Swift.Bool {
+    get
+  }
+  public static func == (a: LineSDKObjC.MessageSendingStatus, b: LineSDKObjC.MessageSendingStatus) -> Swift.Bool
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKGroup : ObjectiveC.NSObject {
+  @objc public var groupID: Swift.String {
+    @objc get
+  }
+  @objc public var groupName: Swift.String {
+    @objc get
+  }
+  @objc public var pictureURL: Foundation.URL? {
+    @objc get
+  }
+  @objc public var pictureURLSmall: Foundation.URL? {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+public enum MessageAction : Swift.Codable, LineSDKObjC.MessageActionConvertible {
+  case URI(LineSDKObjC.MessageURIAction)
+  case unknown
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public var asURIAction: LineSDKObjC.MessageURIAction? {
+    get
+  }
+  public var action: LineSDKObjC.MessageAction {
+    get
+  }
+}
+public struct MessageURIAction : Swift.Codable, LineSDKObjC.MessageActionConvertible {
+  public let label: Swift.String?
+  public let uri: Foundation.URL
+  public init(label: Swift.String? = nil, uri: Foundation.URL)
+  public var action: LineSDKObjC.MessageAction {
+    get
+  }
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKConstant : ObjectiveC.NSObject {
+  @objc public static let SDKVersion: Swift.String
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class LineSDKFlexBoxComponent : LineSDKObjC.LineSDKFlexMessageComponent {
+  @objc final public let layout: LineSDKObjC.LineSDKFlexMessageComponentLayout
+  @objc public var contents: [LineSDKObjC.LineSDKFlexMessageComponent]
+  @objc public var flex: Foundation.NSNumber?
+  @objc public var spacing: LineSDKObjC.LineSDKFlexMessageComponentSpacing
+  @objc public var margin: LineSDKObjC.LineSDKFlexMessageComponentMargin
+  @objc public var action: LineSDKObjC.LineSDKMessageAction?
+  @objc public init(layout: LineSDKObjC.LineSDKFlexMessageComponentLayout, contents: [LineSDKObjC.LineSDKFlexMessageComponent])
+  @objc public func addComponent(_ value: LineSDKObjC.LineSDKFlexMessageComponent)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKAccessTokenVerifyResult : ObjectiveC.NSObject {
+  @objc public var channelID: Swift.String {
+    @objc get
+  }
+  @objc public var permissions: [LineSDKObjC.LineSDKLoginPermission] {
+    @objc get
+  }
+  @objc public var expiresIn: Foundation.TimeInterval {
+    @objc get
+  }
+  @objc public var json: Swift.String? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct GetApproversInGroupRequest : LineSDKObjC.Request {
+  public init(groupID: Swift.String, pageToken: Swift.String? = nil)
+  public let method: LineSDKObjC.HTTPMethod
+  public var path: Swift.String {
+    get
+  }
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+  public struct Response : Swift.Decodable {
+    public let users: [LineSDKObjC.User]
+    public let pageToken: Swift.String?
+    public init(from decoder: Swift.Decoder) throws
+  }
+}
+@objc @objcMembers public class LineSDKTemplateCarouselPayloadColumn : ObjectiveC.NSObject {
+  @objc public var text: Swift.String
+  @objc public var title: Swift.String?
+  @objc public var actions: [LineSDKObjC.LineSDKMessageAction]
+  @objc public var defaultAction: LineSDKObjC.LineSDKMessageAction?
+  @objc public var thumbnailImageURL: Foundation.URL?
+  @objc public var imageBackgroundColor: LineSDKObjC.LineSDKHexColor?
+  @objc public init(title: Swift.String?, text: Swift.String, actions: [LineSDKObjC.LineSDKMessageAction])
+  @objc public func addAction(_ value: LineSDKObjC.LineSDKMessageAction)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class LineSDKTemplateCarouselPayload : LineSDKObjC.LineSDKTemplateMessagePayload {
+  @objc public var columns: [LineSDKObjC.LineSDKTemplateCarouselPayloadColumn]
+  @objc public var imageAspectRatio: LineSDKObjC.LineSDKTemplateMessagePayloadImageAspectRatio
+  @objc public var imageContentMode: LineSDKObjC.LineSDKTemplateMessagePayloadImageContentMode
+  @objc public init(columns: [LineSDKObjC.LineSDKTemplateCarouselPayloadColumn])
+  @objc public func addColumn(_ column: LineSDKObjC.LineSDKTemplateCarouselPayloadColumn)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum API {
+  public static func getProfile(callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.UserProfile, LineSDKObjC.LineSDKError>) -> Swift.Void)
+  public static func getBotFriendshipStatus(callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.GetBotFriendshipStatusRequest.Response, LineSDKObjC.LineSDKError>) -> Swift.Void)
+}
+public struct FlexTextComponent : Swift.Codable, LineSDKObjC.MessageActionContainer {
+  public var text: Swift.String
+  public var flex: LineSDKObjC.FlexMessageComponent.Ratio?
+  public var margin: LineSDKObjC.FlexMessageComponent.Margin?
+  public var size: LineSDKObjC.FlexMessageComponent.Size?
+  public var alignment: LineSDKObjC.FlexMessageComponent.Alignment?
+  public var gravity: LineSDKObjC.FlexMessageComponent.Gravity?
+  public var wrapping: Swift.Bool?
+  public var maxLines: Swift.UInt?
+  public var weight: LineSDKObjC.FlexMessageComponent.Weight?
+  public var color: LineSDKObjC.HexColor?
+  public var action: LineSDKObjC.MessageAction?
+  public init(text: Swift.String, flex: LineSDKObjC.FlexMessageComponent.Ratio? = nil, margin: LineSDKObjC.FlexMessageComponent.Margin? = nil, size: LineSDKObjC.FlexMessageComponent.Size? = nil, alignment: LineSDKObjC.FlexMessageComponent.Alignment? = nil, gravity: LineSDKObjC.FlexMessageComponent.Gravity? = nil, wrapping: Swift.Bool? = nil, maxLines: Swift.UInt? = nil, weight: LineSDKObjC.FlexMessageComponent.Weight? = nil, color: LineSDKObjC.HexColor? = nil, action: LineSDKObjC.MessageAction? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexTextComponent : LineSDKObjC.FlexMessageComponentConvertible {
+  public var component: LineSDKObjC.FlexMessageComponent {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKUser : ObjectiveC.NSObject {
+  @objc public var userID: Swift.String {
+    @objc get
+  }
+  @objc public var displayName: Swift.String {
+    @objc get
+  }
+  @objc public var displayNameOriginal: Swift.String {
+    @objc get
+  }
+  @objc public var displayNameOverridden: Swift.String? {
+    @objc get
+  }
+  @objc public var pictureURL: Foundation.URL? {
+    @objc get
+  }
+  @objc public var pictureURLSmall: Foundation.URL? {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKMessage : ObjectiveC.NSObject {
+  public static func message(with input: LineSDKObjC.MessageConvertible) -> LineSDKObjC.LineSDKMessage?
+  @objc public var textMessage: LineSDKObjC.LineSDKTextMessage? {
+    @objc get
+  }
+  @objc public var imageMessage: LineSDKObjC.LineSDKImageMessage? {
+    @objc get
+  }
+  @objc public var videoMessage: LineSDKObjC.LineSDKVideoMessage? {
+    @objc get
+  }
+  @objc public var audioMessage: LineSDKObjC.LineSDKAudioMessage? {
+    @objc get
+  }
+  @objc public var locationMessage: LineSDKObjC.LineSDKLocationMessage? {
+    @objc get
+  }
+  @objc public var templateMessage: LineSDKObjC.LineSDKTemplateMessage? {
+    @objc get
+  }
+  @objc public var flexMessage: LineSDKObjC.LineSDKFlexMessage? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKMessageSender : ObjectiveC.NSObject {
+  @objc public var label: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc public var iconURL: Foundation.URL {
+    @objc get
+    @objc set
+  }
+  @objc public var linkURL: Foundation.URL? {
+    @objc get
+    @objc set
+  }
+  @objc public init(label: Swift.String, iconURL: Foundation.URL, linkURL: Foundation.URL?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct LocationMessage : Swift.Codable {
+  public typealias LocationDegrees = Swift.Double
+  public var title: Swift.String
+  public var address: Swift.String
+  public var latitude: LineSDKObjC.LocationMessage.LocationDegrees
+  public var longitude: LineSDKObjC.LocationMessage.LocationDegrees
+  public init(title: Swift.String, address: Swift.String, latitude: LineSDKObjC.LocationMessage.LocationDegrees, longitude: LineSDKObjC.LocationMessage.LocationDegrees)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension LocationMessage : LineSDKObjC.MessageConvertible {
+  public var message: LineSDKObjC.Message {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKGetFriendsResponse : ObjectiveC.NSObject {
+  @objc public var friends: [LineSDKObjC.LineSDKUser] {
+    @objc get
+  }
+  @objc public var pageToken: Swift.String? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKGetGroupsResponse : ObjectiveC.NSObject {
+  @objc public var groups: [LineSDKObjC.LineSDKGroup] {
+    @objc get
+  }
+  @objc public var pageToken: Swift.String? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKGetApproversInFriendsResponse : ObjectiveC.NSObject {
+  @objc public var friends: [LineSDKObjC.LineSDKUser] {
+    @objc get
+  }
+  @objc public var pageToken: Swift.String? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKGetApproversInGroupResponse : ObjectiveC.NSObject {
+  @objc public var users: [LineSDKObjC.LineSDKUser] {
+    @objc get
+  }
+  @objc public var pageToken: Swift.String? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum LineSDKGetFriendsRequestSort : Swift.Int {
+  case none
+  case name
+  case relation
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension LoginManager {
+  public struct Parameters {
+    public var onlyWebLogin: Swift.Bool
+    public var botPromptStyle: LineSDKObjC.LoginManager.BotPrompt?
+    public var preferredWebPageLanguage: LineSDKObjC.LoginManager.WebPageLanguage?
+    public var IDTokenNonce: Swift.String?
+    public var allowRecreatingLoginProcess: Swift.Bool
+    public init()
+    @available(*, deprecated, message: "Internally deprecated to suppress warning. Set properties in `Parameters` instead.")
+    public init(options: LineSDKObjC.LoginManagerOptions, language: LineSDKObjC.LoginManager.WebPageLanguage?)
+  }
+}
+extension LoginManager {
+  public enum BotPrompt : Swift.String {
+    case normal
+    case aggressive
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public struct WebPageLanguage {
+    public let rawValue: Swift.String
+    public init(rawValue: Swift.String)
+    public static let arabic: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let german: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let english: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let spanish: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let french: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let indonesian: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let italian: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let japanese: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let korean: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let malay: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let portugueseBrazilian: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let portugueseEuropean: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let russian: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let thai: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let turkish: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let vietnamese: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let chineseSimplified: LineSDKObjC.LoginManager.WebPageLanguage
+    public static let chineseTraditional: LineSDKObjC.LoginManager.WebPageLanguage
+  }
+}
+public enum ResultUtil {
+  public static func match<Success, Failure, Output>(result: Swift.Result<Success, Failure>, onSuccess: (Success) -> Output, onFailure: (Failure) -> Output) -> Output where Failure : Swift.Error
+  public static func matchSuccess<Success, Failure, Output>(result: Swift.Result<Success, Failure>, with folder: (Success?) -> Output) -> Output where Failure : Swift.Error
+  public static func matchFailure<Success, Failure, Output>(result: Swift.Result<Success, Failure>, with folder: (Swift.Error?) -> Output) -> Output where Failure : Swift.Error
+  public static func match<Success, Failure, Output>(result: Swift.Result<Success, Failure>, with folder: (Success?, Swift.Error?) -> Output) -> Output where Failure : Swift.Error
+}
+@objc @objcMembers public class LineSDKFlexCarouselContainer : LineSDKObjC.LineSDKFlexMessageContainer {
+  @objc public var contents: [LineSDKObjC.LineSDKFlexBubbleContainer]
+  @objc public init(contents: [LineSDKObjC.LineSDKFlexBubbleContainer])
+  @objc public func addBubble(_ value: LineSDKObjC.LineSDKFlexBubbleContainer)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc open class ShareViewController : UIKit.UINavigationController {
+  public var navigationBarTintColor: UIKit.UIColor {
+    get
+    set
+  }
+  public var navigationBarTextColor: UIKit.UIColor {
+    get
+    set
+  }
+  public var statusBarStyle: UIKit.UIStatusBarStyle {
+    get
+    set
+  }
+  weak public var shareDelegate: LineSDKObjC.ShareViewControllerDelegate?
+  public var messages: [LineSDKObjC.MessageConvertible]? {
+    get
+    set
+  }
+  @objc dynamic public init()
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic open var preferredStatusBarStyle: UIKit.UIStatusBarStyle {
+    @objc get
+  }
+  @objc deinit
+  @available(iOS 5.0, *)
+  @objc override dynamic public init(navigationBarClass: Swift.AnyClass?, toolbarClass: Swift.AnyClass?)
+  @objc override dynamic public init(rootViewController: UIKit.UIViewController)
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+}
+public enum MessageShareAuthorizationStatus {
+  case lackOfToken
+  case lackOfPermissions([LineSDKObjC.LoginPermission])
+  case authorized
+}
+extension ShareViewController {
+  public static func localAuthorizationStatusForSendingMessage() -> LineSDKObjC.MessageShareAuthorizationStatus
+}
+extension ShareViewController : UIKit.UIAdaptivePresentationControllerDelegate {
+  @objc dynamic public func presentationControllerDidDismiss(_ presentationController: UIKit.UIPresentationController)
+  @objc dynamic public func presentationControllerShouldDismiss(_ presentationController: UIKit.UIPresentationController) -> Swift.Bool
+}
+public protocol ShareTarget {
+  var targetID: Swift.String { get }
+  var displayName: Swift.String { get }
+  var avatarURL: Foundation.URL? { get }
+}
+extension User : LineSDKObjC.ShareTarget {
+  public var targetID: Swift.String {
+    get
+  }
+  public var avatarURL: Foundation.URL? {
+    get
+  }
+}
+extension Group : LineSDKObjC.ShareTarget {
+  public var targetID: Swift.String {
+    get
+  }
+  public var displayName: Swift.String {
+    get
+  }
+  public var avatarURL: Foundation.URL? {
+    get
+  }
+}
+public struct TemplateMessage : Swift.Codable {
+  public var altText: Swift.String
+  public var payload: LineSDKObjC.TemplateMessagePayload
+  public init(altText: Swift.String, payload: LineSDKObjC.TemplateMessageConvertible)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension TemplateMessage : LineSDKObjC.MessageConvertible {
+  public var message: LineSDKObjC.Message {
+    get
+  }
+}
+public struct ImageMessage : Swift.Codable {
+  public let originalContentURL: Foundation.URL
+  public let previewImageURL: Foundation.URL
+  public var animated: Swift.Bool?
+  public var fileExtension: Swift.String?
+  public var sender: LineSDKObjC.MessageSender?
+  public init(originalContentURL: Foundation.URL, previewImageURL: Foundation.URL, animated: Swift.Bool? = nil, fileExtension: Swift.String? = nil, sender: LineSDKObjC.MessageSender? = nil) throws
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension ImageMessage : LineSDKObjC.MessageConvertible {
+  public var message: LineSDKObjC.Message {
+    get
+  }
+}
+public struct Unit : Swift.Decodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+@objc @objcMembers public class LineSDKFlexTextComponent : LineSDKObjC.LineSDKFlexMessageComponent {
+  @objc public var text: Swift.String
+  @objc public var flex: Foundation.NSNumber?
+  @objc public var margin: LineSDKObjC.LineSDKFlexMessageComponentMargin
+  @objc public var size: LineSDKObjC.LineSDKFlexMessageComponentSize
+  @objc public var alignment: LineSDKObjC.LineSDKFlexMessageComponentAlignment
+  @objc public var gravity: LineSDKObjC.LineSDKFlexMessageComponentGravity
+  @objc public var wrapping: Swift.Bool
+  @objc public var maxLines: Foundation.NSNumber?
+  @objc public var weight: LineSDKObjC.LineSDKFlexMessageComponentWeight
+  @objc public var color: LineSDKObjC.LineSDKHexColor?
+  @objc public var action: LineSDKObjC.LineSDKMessageAction?
+  @objc public init(text: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol DefaultEnumCodable : Swift.Decodable, Swift.Encodable, Swift.RawRepresentable {
+  static var defaultCase: Self { get }
+}
+extension DefaultEnumCodable where Self.RawValue : Swift.Decodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKUserProfile : ObjectiveC.NSObject {
+  @objc public var userID: Swift.String {
+    @objc get
+  }
+  @objc public var displayName: Swift.String {
+    @objc get
+  }
+  @objc public var pictureURL: Foundation.URL? {
+    @objc get
+  }
+  @objc public var pictureURLLarge: Foundation.URL? {
+    @objc get
+  }
+  @objc public var pictureURLSmall: Foundation.URL? {
+    @objc get
+  }
+  @objc public var statusMessage: Swift.String? {
+    @objc get
+  }
+  @objc public var json: Swift.String? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @available(*, deprecated, message: "Use `LineSDKLoginManagerParameters` instead.")
+@objcMembers public class LineSDKLoginManagerOptions : ObjectiveC.NSObject {
+  @objc public init(rawValue: Swift.Int)
+  @objc public static let onlyWebLogin: LineSDKObjC.LineSDKLoginManagerOptions
+  @objc public static let botPromptNormal: LineSDKObjC.LineSDKLoginManagerOptions
+  @objc public static let botPromptAggressive: LineSDKObjC.LineSDKLoginManagerOptions
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension API {
+  @available(*, deprecated, renamed: "Auth.refreshAccessToken", message: "Auth-related APIs don't refresh access token automatically.\nMake sure you don't need token refreshing as a side effect, then use methods from `API.Auth` instead.")
+  public static func refreshAccessToken(callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.AccessToken, LineSDKObjC.LineSDKError>) -> Swift.Void)
+  @available(*, deprecated, renamed: "Auth.revokeAccessToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods from `API.Auth` instead.")
+  public static func revokeAccessToken(_ token: Swift.String? = nil, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<(), LineSDKObjC.LineSDKError>) -> Swift.Void)
+  @available(*, deprecated, renamed: "Auth.revokeRefreshToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods from `API.Auth` instead.")
+  public static func revokeRefreshToken(_ refreshToken: Swift.String? = nil, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<(), LineSDKObjC.LineSDKError>) -> Swift.Void)
+  @available(*, deprecated, renamed: "Auth.verifyAccessToken", message: "Auth-related APIs don't refresh access tokens automatically.\nMake sure you don't need token refreshing as a side effect, then use methods from `API.Auth` instead.")
+  public static func verifyAccessToken(_ token: Swift.String? = nil, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.AccessTokenVerifyResult, LineSDKObjC.LineSDKError>) -> Swift.Void)
+}
+public enum Message : Swift.Codable {
+  case text(LineSDKObjC.TextMessage)
+  case image(LineSDKObjC.ImageMessage)
+  case video(LineSDKObjC.VideoMessage)
+  case audio(LineSDKObjC.AudioMessage)
+  case location(LineSDKObjC.LocationMessage)
+  case template(LineSDKObjC.TemplateMessage)
+  case flex(LineSDKObjC.FlexMessage)
+  case unknown
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public var asTextMessage: LineSDKObjC.TextMessage? {
+    get
+  }
+  public var asImageMessage: LineSDKObjC.ImageMessage? {
+    get
+  }
+  public var asVideoMessage: LineSDKObjC.VideoMessage? {
+    get
+  }
+  public var asAudioMessage: LineSDKObjC.AudioMessage? {
+    get
+  }
+  public var asLocationMessage: LineSDKObjC.LocationMessage? {
+    get
+  }
+  public var asTemplateMessage: LineSDKObjC.TemplateMessage? {
+    get
+  }
+  public var asFlexMessage: LineSDKObjC.FlexMessage? {
+    get
+  }
+}
+extension Message : LineSDKObjC.MessageConvertible {
+  public var message: LineSDKObjC.Message {
+    get
+  }
+}
+public struct GetUserProfileRequest : LineSDKObjC.Request {
+  public init()
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public typealias Response = LineSDKObjC.UserProfile
+}
+public struct PostMessageSendingTokenIssueRequest : LineSDKObjC.Request {
+  public typealias Response = LineSDKObjC.MessageSendingToken
+  public let userIDs: [Swift.String]
+  public init(userIDs: [Swift.String])
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+}
+public struct MessageSendingToken : Swift.Codable {
+  public let token: Swift.String
+  public init(value: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc @objcMembers final public class LineSDKMessageShareAuthorizationStatus : ObjectiveC.NSObject {
+  @objc final public let rawValue: Swift.Int
+  @objc public static let authorized: LineSDKObjC.LineSDKMessageShareAuthorizationStatus
+  @objc public static let lackOfToken: LineSDKObjC.LineSDKMessageShareAuthorizationStatus
+  @objc public static let lackOfFriendsPermission: LineSDKObjC.LineSDKMessageShareAuthorizationStatus
+  @objc public static let lackOfGroupsPermission: LineSDKObjC.LineSDKMessageShareAuthorizationStatus
+  @objc public static let lackOfMesasgeWritePermission: LineSDKObjC.LineSDKMessageShareAuthorizationStatus
+  @objc public init(rawValue: Swift.Int)
+  public static func status(from s: LineSDKObjC.MessageShareAuthorizationStatus) -> [LineSDKObjC.LineSDKMessageShareAuthorizationStatus]
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc public protocol LineSDKShareTarget {
+  @objc var targetID: Swift.String { get }
+  @objc var displayName: Swift.String { get }
+  @objc var avatarURL: Foundation.URL? { get }
+}
+extension LineSDKUser : LineSDKObjC.LineSDKShareTarget {
+  @objc dynamic public var targetID: Swift.String {
+    @objc get
+  }
+  @objc dynamic public var avatarURL: Foundation.URL? {
+    @objc get
+  }
+}
+extension LineSDKGroup : LineSDKObjC.LineSDKShareTarget {
+  @objc dynamic public var targetID: Swift.String {
+    @objc get
+  }
+  @objc dynamic public var displayName: Swift.String {
+    @objc get
+  }
+  @objc dynamic public var avatarURL: Foundation.URL? {
+    @objc get
+  }
+}
+@objc @objcMembers public class LineSDKTextMessage : LineSDKObjC.LineSDKMessage {
+  @objc public var text: Swift.String
+  @objc public var sender: LineSDKObjC.LineSDKMessageSender?
+  @objc convenience public init(text: Swift.String)
+  @objc public init(text: Swift.String, sender: LineSDKObjC.LineSDKMessageSender?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct User : Swift.Decodable {
+  public let userID: Swift.String
+  public var displayName: Swift.String {
+    get
+  }
+  public let displayNameOriginal: Swift.String
+  public let displayNameOverridden: Swift.String?
+  public let pictureURL: Foundation.URL?
+  public var pictureURLLarge: Foundation.URL? {
+    get
+  }
+  public var pictureURLSmall: Foundation.URL? {
+    get
+  }
+  public init(from decoder: Swift.Decoder) throws
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class LineSDKLoginManagerParameters : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc public var onlyWebLogin: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc public var botPromptStyle: LineSDKObjC.LineSDKLoginManagerBotPrompt? {
+    @objc get
+    @objc set
+  }
+  @objc public var preferredWebPageLanguage: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc public var IDTokenNonce: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKLoginManagerBotPrompt : ObjectiveC.NSObject {
+  @objc public static let normal: LineSDKObjC.LineSDKLoginManagerBotPrompt
+  @objc public static let aggressive: LineSDKObjC.LineSDKLoginManagerBotPrompt
+  @objc public var rawValue: Swift.String {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol ShareViewControllerDelegate : AnyObject {
+  func shareViewController(_ controller: LineSDKObjC.ShareViewController, didFailLoadingListType shareType: LineSDKObjC.MessageShareTargetType, withError error: LineSDKObjC.LineSDKError)
+  func shareViewControllerDidCancelSharing(_ controller: LineSDKObjC.ShareViewController)
+  func shareViewController(_ controller: LineSDKObjC.ShareViewController, didFailSendingMessages messages: [LineSDKObjC.MessageConvertible], toTargets targets: [LineSDKObjC.ShareTarget], withError error: LineSDKObjC.LineSDKError)
+  func shareViewController(_ controller: LineSDKObjC.ShareViewController, didSendMessages messages: [LineSDKObjC.MessageConvertible], toTargets targets: [LineSDKObjC.ShareTarget])
+  func shareViewControllerShouldDismissAfterSending(_ controller: LineSDKObjC.ShareViewController) -> Swift.Bool
+  func shareViewController(_ controller: LineSDKObjC.ShareViewController, messagesForSendingToTargets targets: [LineSDKObjC.ShareTarget]) -> [LineSDKObjC.MessageConvertible]
+}
+extension ShareViewControllerDelegate {
+  public func shareViewController(_ controller: LineSDKObjC.ShareViewController, didFailLoadingListType shareType: LineSDKObjC.MessageShareTargetType, withError error: LineSDKObjC.LineSDKError)
+  public func shareViewControllerDidCancelSharing(_ controller: LineSDKObjC.ShareViewController)
+  public func shareViewController(_ controller: LineSDKObjC.ShareViewController, didFailSendingMessages messages: [LineSDKObjC.MessageConvertible], toTargets targets: [LineSDKObjC.ShareTarget], withError error: LineSDKObjC.LineSDKError)
+  public func shareViewController(_ controller: LineSDKObjC.ShareViewController, didSendMessages messages: [LineSDKObjC.MessageConvertible], toTargets targets: [LineSDKObjC.ShareTarget])
+  public func shareViewController(_ controller: LineSDKObjC.ShareViewController, messagesForSendingToTargets targets: [LineSDKObjC.ShareTarget]) -> [LineSDKObjC.MessageConvertible]
+  public func shareViewControllerShouldDismissAfterSending(_ controller: LineSDKObjC.ShareViewController) -> Swift.Bool
+}
+public struct FlexIconComponent : Swift.Codable {
+  public let url: Foundation.URL
+  public var margin: LineSDKObjC.FlexMessageComponent.Margin?
+  public var size: LineSDKObjC.FlexMessageComponent.Size?
+  public var aspectRatio: LineSDKObjC.FlexMessageComponent.AspectRatio?
+  public init(url: Foundation.URL) throws
+  public init(url: Foundation.URL, margin: LineSDKObjC.FlexMessageComponent.Margin? = nil, size: LineSDKObjC.FlexMessageComponent.Size? = nil, aspectRatio: LineSDKObjC.FlexMessageComponent.AspectRatio? = nil) throws
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexIconComponent : LineSDKObjC.FlexMessageComponentConvertible {
+  public var component: LineSDKObjC.FlexMessageComponent {
+    get
+  }
+}
+public struct AccessToken : Swift.Codable, Swift.Equatable {
+  public let value: Swift.String
+  public let createdAt: Foundation.Date
+  public let IDToken: LineSDKObjC.JWT?
+  public let IDTokenRaw: Swift.String?
+  @available(*, unavailable, message: "`refreshToken` is not publicly provided anymore. You should not access or store it yourself.")
+  public var refreshToken: Swift.String {
+    get
+  }
+  public let permissions: [LineSDKObjC.LoginPermission]
+  public var expiresAt: Foundation.Date {
+    get
+  }
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: LineSDKObjC.AccessToken, b: LineSDKObjC.AccessToken) -> Swift.Bool
+}
+extension API {
+  public static func getFriends(sort: LineSDKObjC.GetFriendsRequest.Sort? = nil, pageToken: Swift.String?, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.GetFriendsRequest.Response, LineSDKObjC.LineSDKError>) -> Swift.Void)
+  public static func getApproversInFriends(pageToken: Swift.String?, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.GetApproversInFriendsRequest.Response, LineSDKObjC.LineSDKError>) -> Swift.Void)
+  public static func getGroups(pageToken: Swift.String?, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.GetGroupsRequest.Response, LineSDKObjC.LineSDKError>) -> Swift.Void)
+  public static func getApproversInGroup(groupID: Swift.String, pageToken: Swift.String?, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.GetApproversInGroupRequest.Response, LineSDKObjC.LineSDKError>) -> Swift.Void)
+}
+extension API {
+  public static func sendMessages(_ messages: [LineSDKObjC.MessageConvertible], to chatID: Swift.String, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.PostSendMessagesRequest.Response, LineSDKObjC.LineSDKError>) -> Swift.Void)
+  public static func multiSendMessages(_ messages: [LineSDKObjC.MessageConvertible], to userIDs: [Swift.String], callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.PostMultisendMessagesRequest.Response, LineSDKObjC.LineSDKError>) -> Swift.Void)
+}
+extension API {
+  public static func getMessageSendingOneTimeToken(userIDs: [Swift.String], callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHander completion: @escaping (Swift.Result<LineSDKObjC.MessageSendingToken, LineSDKObjC.LineSDKError>) -> Swift.Void)
+  public static func multiSendMessages(_ messages: [LineSDKObjC.MessageConvertible], withMessageToken token: LineSDKObjC.MessageSendingToken, callbackQueue queue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: @escaping (Swift.Result<LineSDKObjC.Unit, LineSDKObjC.LineSDKError>) -> Swift.Void)
+}
+extension Bundle {
+}
+@objc public protocol LineSDKShareViewControllerDelegate : AnyObject {
+  @objc optional func shareViewController(_ controller: LineSDKObjC.LineSDKShareViewController, didFailLoadingListType shareType: LineSDKObjC.LineSDKMessageShareTargetType, withError error: Swift.Error)
+  @objc optional func shareViewControllerDidCancelSharing(_ controller: LineSDKObjC.LineSDKShareViewController)
+  @objc optional func shareViewController(_ controller: LineSDKObjC.LineSDKShareViewController, didFailSendingMessages messages: [LineSDKObjC.LineSDKMessage], toTargets targets: [LineSDKObjC.LineSDKShareTarget], withError error: Swift.Error)
+  @objc optional func shareViewController(_ controller: LineSDKObjC.LineSDKShareViewController, didSendMessages messages: [LineSDKObjC.LineSDKMessage], toTargets targets: [LineSDKObjC.LineSDKShareTarget])
+  @objc optional func shareViewController(_ controller: LineSDKObjC.LineSDKShareViewController, messagesForSendingToTargets targets: [LineSDKObjC.LineSDKShareTarget]) -> [LineSDKObjC.LineSDKMessage]
+  @objc optional func shareViewControllerShouldDismissAfterSending(_ controller: LineSDKObjC.LineSDKShareViewController) -> Swift.Bool
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKFlexMessage : LineSDKObjC.LineSDKMessage {
+  @objc public var altText: Swift.String
+  @objc public var contents: LineSDKObjC.LineSDKFlexMessageContainer
+  @objc public init(altText: Swift.String, container: LineSDKObjC.LineSDKFlexMessageContainer)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKMessageSendingStatus : ObjectiveC.NSObject {
+  @objc public static let statusOK: LineSDKObjC.LineSDKMessageSendingStatus
+  @objc public static let statusDiscarded: LineSDKObjC.LineSDKMessageSendingStatus
+  @objc public func isEqualToStatus(_ another: LineSDKObjC.LineSDKMessageSendingStatus) -> Swift.Bool
+  @objc public var isOK: Swift.Bool {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKPostSendMessagesResponse : ObjectiveC.NSObject {
+  @objc public var status: LineSDKObjC.LineSDKMessageSendingStatus {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKPostMultisendMessagesResponseSendingResult : ObjectiveC.NSObject {
+  @objc public var to: Swift.String {
+    @objc get
+  }
+  @objc public var status: LineSDKObjC.LineSDKMessageSendingStatus {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKPostMultisendMessagesResponse : ObjectiveC.NSObject {
+  @objc public var result: [LineSDKObjC.LineSDKPostMultisendMessagesResponseSendingResult] {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct TemplateCarouselPayload : Swift.Codable {
+  public struct Column : Swift.Codable {
+    public var text: Swift.String
+    public var title: Swift.String?
+    public var actions: [LineSDKObjC.MessageAction]
+    public var defaultAction: LineSDKObjC.MessageAction?
+    public var thumbnailImageURL: Foundation.URL?
+    public var imageBackgroundColor: LineSDKObjC.HexColor?
+    public init(title: Swift.String? = nil, text: Swift.String, actions: [LineSDKObjC.MessageActionConvertible] = [], defaultAction: LineSDKObjC.MessageActionConvertible? = nil, thumbnailImageURL: Foundation.URL? = nil, imageBackgroundColor: LineSDKObjC.HexColor? = nil)
+    public mutating func addAction(_ value: LineSDKObjC.MessageActionConvertible)
+    public mutating func setDefaultAction(_ value: LineSDKObjC.MessageActionConvertible?)
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+  public var columns: [LineSDKObjC.TemplateCarouselPayload.Column]
+  public var imageAspectRatio: LineSDKObjC.TemplateMessagePayload.ImageAspectRatio?
+  public var imageContentMode: LineSDKObjC.TemplateMessagePayload.ImageContentMode?
+  public init(columns: [LineSDKObjC.TemplateCarouselPayload.Column])
+  public mutating func addColumn(_ column: LineSDKObjC.TemplateCarouselPayload.Column)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension TemplateCarouselPayload : LineSDKObjC.TemplateMessageConvertible {
+  public var payload: LineSDKObjC.TemplateMessagePayload {
+    get
+  }
+}
+public struct APIError {
+  public let error: Swift.String
+  public let detail: Swift.String?
+}
+public struct Group : Swift.Decodable {
+  public let groupID: Swift.String
+  public let groupName: Swift.String
+  public let pictureURL: Foundation.URL?
+  public var pictureURLLarge: Foundation.URL? {
+    get
+  }
+  public var pictureURLSmall: Foundation.URL? {
+    get
+  }
+  public init(from decoder: Swift.Decoder) throws
+}
+@objc @objcMembers public class LineSDKImageMessage : LineSDKObjC.LineSDKMessage {
+  @objc final public let originalContentURL: Foundation.URL
+  @objc final public let previewImageURL: Foundation.URL
+  @objc public var animated: Swift.Bool
+  @objc public var fileExtension: Swift.String?
+  @objc public var sender: LineSDKObjC.LineSDKMessageSender?
+  @objc convenience public init?(originalContentURL: Foundation.URL, previewImageURL: Foundation.URL)
+  @objc public init?(originalContentURL: Foundation.URL, previewImageURL: Foundation.URL, animated: Swift.Bool, fileExtension: Swift.String?, sender: LineSDKObjC.LineSDKMessageSender?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum FlexMessageContainer : Swift.Codable {
+  case bubble(LineSDKObjC.FlexBubbleContainer)
+  case carousel(LineSDKObjC.FlexCarouselContainer)
+  case unknown
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public var asBubbleContainer: LineSDKObjC.FlexBubbleContainer? {
+    get
+  }
+  public var asCarouselContainer: LineSDKObjC.FlexCarouselContainer? {
+    get
+  }
+  public func jsonString() throws -> Swift.String?
+}
+extension FlexMessageContainer : LineSDKObjC.FlexMessageConvertible {
+  public var container: LineSDKObjC.FlexMessageContainer {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class LoginProcess {
+  public func stop()
+  @objc deinit
+}
+public struct LoginPermission : Swift.Hashable {
+  public let rawValue: Swift.String
+  public init(rawValue: Swift.String)
+  public static let openID: LineSDKObjC.LoginPermission
+  public static let profile: LineSDKObjC.LoginPermission
+  public static let oneTimeShare: LineSDKObjC.LoginPermission
+  public static let friends: LineSDKObjC.LoginPermission
+  public static let groups: LineSDKObjC.LoginPermission
+  public static let messageWrite: LineSDKObjC.LoginPermission
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: LineSDKObjC.LoginPermission, b: LineSDKObjC.LoginPermission) -> Swift.Bool
+}
+extension LoginPermission {
+  public static let email: LineSDKObjC.LoginPermission
+}
+extension LoginPermission {
+  public static let phone: LineSDKObjC.LoginPermission
+  public static let gender: LineSDKObjC.LoginPermission
+  public static let birthdate: LineSDKObjC.LoginPermission
+  public static let address: LineSDKObjC.LoginPermission
+  public static let realName: LineSDKObjC.LoginPermission
+}
+extension LoginPermission : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+@objc public enum LineSDKFlexButtonComponentStyle : Swift.Int {
+  case none
+  case link
+  case primary
+  case secondary
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @objcMembers public class LineSDKFlexButtonComponent : LineSDKObjC.LineSDKFlexMessageComponent {
+  @objc public var action: LineSDKObjC.LineSDKMessageAction
+  @objc public var flex: Foundation.NSNumber?
+  @objc public var margin: LineSDKObjC.LineSDKFlexMessageComponentMargin
+  @objc public var height: LineSDKObjC.LineSDKFlexMessageComponentHeight
+  @objc public var style: LineSDKObjC.LineSDKFlexButtonComponentStyle
+  @objc public var color: LineSDKObjC.LineSDKHexColor?
+  @objc public var gravity: LineSDKObjC.LineSDKFlexMessageComponentGravity
+  @objc public init(action: LineSDKObjC.LineSDKMessageAction)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol RequestAdapter {
+  func adapted(_ request: Foundation.URLRequest) throws -> Foundation.URLRequest
+}
+public struct AnyRequestAdapter : LineSDKObjC.RequestAdapter {
+  public init(_ block: @escaping (Foundation.URLRequest) throws -> Foundation.URLRequest)
+  public func adapted(_ request: Foundation.URLRequest) throws -> Foundation.URLRequest
+}
+public struct GetShareGroupsRequest : LineSDKObjC.Request {
+  public init(pageToken: Swift.String? = nil)
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+  public struct Response : Swift.Decodable {
+    public let groups: [LineSDKObjC.Group]
+    public let pageToken: Swift.String?
+    public init(from decoder: Swift.Decoder) throws
+  }
+}
+@objc @objcMembers public class LineSDKFlexSeparatorComponent : LineSDKObjC.LineSDKFlexMessageComponent {
+  @objc public var margin: LineSDKObjC.LineSDKFlexMessageComponentMargin
+  @objc public var color: LineSDKObjC.LineSDKHexColor?
+  @objc public init(margin: LineSDKObjC.LineSDKFlexMessageComponentMargin, color: LineSDKObjC.LineSDKHexColor?)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class LineSDKFlexSpacerComponent : LineSDKObjC.LineSDKFlexMessageComponent {
+  @objc public var size: LineSDKObjC.LineSDKFlexMessageComponentSize
+  @objc public init(size: LineSDKObjC.LineSDKFlexMessageComponentSize)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKAPIError : ObjectiveC.NSObject {
+  @objc public var error: Swift.String {
+    @objc get
+  }
+  @objc public var detail: Swift.String? {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class LineSDKLocationMessage : LineSDKObjC.LineSDKMessage {
+  @objc public var title: Swift.String
+  @objc public var address: Swift.String
+  @objc public var latitude: Swift.Double
+  @objc public var longitude: Swift.Double
+  @objc public init(title: Swift.String, address: Swift.String, latitude: Swift.Double, longitude: Swift.Double)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct FlexMessage : Swift.Codable {
+  public var altText: Swift.String
+  public var contents: LineSDKObjC.FlexMessageContainer
+  public init(altText: Swift.String, container: LineSDKObjC.FlexMessageConvertible)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexMessage : LineSDKObjC.MessageConvertible {
+  public var message: LineSDKObjC.Message {
+    get
+  }
+}
+public struct FlexBlockStyle : Swift.Codable {
+  public var backgroundColor: LineSDKObjC.HexColor?
+  public var separator: Swift.Bool?
+  public var separatorColor: LineSDKObjC.HexColor?
+  public init(backgroundColor: LineSDKObjC.HexColor? = nil, separator: Swift.Bool? = nil, separatorColor: LineSDKObjC.HexColor? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKFlexMessageComponent : ObjectiveC.NSObject {
+  @objc public var boxComponent: LineSDKObjC.LineSDKFlexBoxComponent? {
+    @objc get
+  }
+  @objc public var textComponent: LineSDKObjC.LineSDKFlexTextComponent? {
+    @objc get
+  }
+  @objc public var buttonComponent: LineSDKObjC.LineSDKFlexButtonComponent? {
+    @objc get
+  }
+  @objc public var imageComponent: LineSDKObjC.LineSDKFlexImageComponent? {
+    @objc get
+  }
+  @objc public var fillerComponent: LineSDKObjC.LineSDKFlexFillerComponent? {
+    @objc get
+  }
+  @objc public var iconComponent: LineSDKObjC.LineSDKFlexIconComponent? {
+    @objc get
+  }
+  @objc public var separatorComponent: LineSDKObjC.LineSDKFlexSeparatorComponent? {
+    @objc get
+  }
+  @objc public var spacerComponent: LineSDKObjC.LineSDKFlexSpacerComponent? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum LineSDKFlexMessageComponentLayout : Swift.Int {
+  case horizontal, vertical, baseline
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum LineSDKFlexMessageComponentSpacing : Swift.Int {
+  case none, xs, sm, md, lg, xl, xxl
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum LineSDKFlexMessageComponentMargin : Swift.Int {
+  case none, xs, sm, md, lg, xl, xxl
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum LineSDKFlexMessageComponentSize : Swift.Int {
+  case none, xxs, xs, sm, md, lg, xl, xxl, xl3, xl4, xl5, full
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum LineSDKFlexMessageComponentAlignment : Swift.Int {
+  case none, start, end, center
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum LineSDKFlexMessageComponentGravity : Swift.Int {
+  case none, top, bottom, center
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum LineSDKFlexMessageComponentWeight : Swift.Int {
+  case none, regular, bold
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum LineSDKFlexMessageComponentHeight : Swift.Int {
+  case none, sm, md
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum LineSDKFlexMessageComponentAspectRatio : Swift.Int {
+  case none, ratio_1x1, ratio_1_51x1, ratio_1_91x1, ratio_4x3, ratio_16x9, ratio_20x13, ratio_2x1, ratio_3x1, ratio_3x4, ratio_9x16, ratio_1x2, ratio_1x3
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum LineSDKFlexMessageComponentAspectMode : Swift.Int {
+  case none, fill, fit
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct GetApproversInFriendsRequest : LineSDKObjC.Request {
+  public init(pageToken: Swift.String? = nil)
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+  public struct Response : Swift.Decodable {
+    public let friends: [LineSDKObjC.User]
+    public let pageToken: Swift.String?
+    public init(from decoder: Swift.Decoder) throws
+  }
+}
+@objc @objcMembers public class LineSDKFlexImageComponent : LineSDKObjC.LineSDKFlexMessageComponent {
+  @objc final public let url: Foundation.URL
+  @objc public var flex: Foundation.NSNumber?
+  @objc public var margin: LineSDKObjC.LineSDKFlexMessageComponentMargin
+  @objc public var alignment: LineSDKObjC.LineSDKFlexMessageComponentAlignment
+  @objc public var gravity: LineSDKObjC.LineSDKFlexMessageComponentGravity
+  @objc public var size: LineSDKObjC.LineSDKFlexMessageComponentSize
+  @objc public var aspectRatio: LineSDKObjC.LineSDKFlexMessageComponentAspectRatio
+  @objc public var aspectMode: LineSDKObjC.LineSDKFlexMessageComponentAspectMode
+  @objc public var backgroundColor: LineSDKObjC.LineSDKHexColor?
+  @objc public init?(imageURL: Foundation.URL)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum CallbackQueue {
+  case asyncMain
+  case currentMainOrAsync
+  case untouch
+  case dispatch(Dispatch.DispatchQueue)
+  case operation(Foundation.OperationQueue)
+}
+public struct TemplateButtonsPayload : Swift.Codable {
+  public var text: Swift.String
+  public var title: Swift.String?
+  public var actions: [LineSDKObjC.MessageAction]
+  public var defaultAction: LineSDKObjC.MessageAction?
+  public var thumbnailImageURL: Foundation.URL?
+  public var imageAspectRatio: LineSDKObjC.TemplateMessagePayload.ImageAspectRatio?
+  public var imageContentMode: LineSDKObjC.TemplateMessagePayload.ImageContentMode?
+  public var imageBackgroundColor: LineSDKObjC.HexColor?
+  public var sender: LineSDKObjC.MessageSender?
+  public init(title: Swift.String? = nil, text: Swift.String, defaultAction: LineSDKObjC.MessageAction? = nil, thumbnailImageURL: Foundation.URL? = nil, imageAspectRatio: LineSDKObjC.TemplateMessagePayload.ImageAspectRatio? = nil, imageContentMode: LineSDKObjC.TemplateMessagePayload.ImageContentMode? = nil, imageBackgroundColor: LineSDKObjC.HexColor? = nil, sender: LineSDKObjC.MessageSender? = nil, actions: [LineSDKObjC.MessageActionConvertible] = [])
+  public mutating func addAction(_ value: LineSDKObjC.MessageActionConvertible)
+  public mutating func setDefaultAction(_ value: LineSDKObjC.MessageActionConvertible?)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension TemplateButtonsPayload : LineSDKObjC.TemplateMessageConvertible {
+  public var payload: LineSDKObjC.TemplateMessagePayload {
+    get
+  }
+}
+public struct FlexSpacerComponent : Swift.Codable {
+  public var size: LineSDKObjC.FlexMessageComponent.Size?
+  public init(size: LineSDKObjC.FlexMessageComponent.Size? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexSpacerComponent : LineSDKObjC.FlexMessageComponentConvertible {
+  public var component: LineSDKObjC.FlexMessageComponent {
+    get
+  }
+}
+@objc @objcMembers public class LineSDKFlexIconComponent : LineSDKObjC.LineSDKFlexMessageComponent {
+  @objc final public let url: Foundation.URL
+  @objc public var margin: LineSDKObjC.LineSDKFlexMessageComponentMargin
+  @objc public var size: LineSDKObjC.LineSDKFlexMessageComponentSize
+  @objc public var aspectRatio: LineSDKObjC.LineSDKFlexMessageComponentAspectRatio
+  @objc public init?(iconURL: Foundation.URL)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum CryptoError : Swift.Error {
+  public enum AlgorithmsErrorReason {
+    case invalidDERKey(data: Foundation.Data, reason: Swift.String)
+    case invalidX509Header(data: Foundation.Data, index: Swift.Int, reason: Swift.String)
+    case createKeyFailed(data: Foundation.Data, reason: Swift.String)
+    case invalidPEMKey(string: Swift.String, reason: Swift.String)
+    case encryptingError(Swift.Error?)
+    case decryptingError(Swift.Error?)
+    case signingError(Swift.Error?)
+    case verifyingError(Swift.Error?, statusCode: Swift.Int?)
+    case invalidSignature(data: Foundation.Data)
+  }
+  public enum JWTErrorReason {
+    case malformedJWTFormat(string: Swift.String)
+    case unsupportedHeaderAlgorithm(name: Swift.String)
+    case claimVerifyingFailed(key: Swift.String, got: Swift.String, description: Swift.String)
+  }
+  public enum JWKErrorReason {
+    case unsupportedKeyType(Swift.String)
+  }
+  public enum GeneralErrorReason {
+    case base64ConversionFailed(string: Swift.String)
+    case dataConversionFailed(data: Foundation.Data, encoding: Swift.String.Encoding)
+    case stringConversionFailed(string: Swift.String, encoding: Swift.String.Encoding)
+    case operationNotSupported(reason: Swift.String)
+    case decodingFailed(string: Swift.String, type: Any.Type)
+  }
+  case algorithmsFailed(reason: LineSDKObjC.CryptoError.AlgorithmsErrorReason)
+  case JWTFailed(reason: LineSDKObjC.CryptoError.JWTErrorReason)
+  case JWKFailed(reason: LineSDKObjC.CryptoError.JWKErrorReason)
+  case generalError(reason: LineSDKObjC.CryptoError.GeneralErrorReason)
+}
+extension CryptoError : Foundation.LocalizedError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+extension CryptoError : Foundation.CustomNSError {
+  public var errorUserInfo: [Swift.String : Any] {
+    get
+  }
+  public var errorCode: Swift.Int {
+    get
+  }
+  public static var errorDomain: Swift.String {
+    get
+  }
+}
+@available(*, deprecated, message: "Use `LoginManager.Parameters` type instead.")
+public struct LoginManagerOptions : Swift.OptionSet {
+  public let rawValue: Swift.Int
+  public init(rawValue: Swift.Int)
+  @available(*, deprecated, message: "Use `LoginManager.Parameters.onlyWebLogin` instead.")
+  public static let onlyWebLogin: LineSDKObjC.LoginManagerOptions
+  @available(*, deprecated, message: "Use `LoginManager.Parameters.botPromptStyle` instead.")
+  public static let botPromptNormal: LineSDKObjC.LoginManagerOptions
+  @available(*, deprecated, message: "Use `LoginManager.Parameters.botPromptStyle` instead.")
+  public static let botPromptAggressive: LineSDKObjC.LoginManagerOptions
+  public typealias Element = LineSDKObjC.LoginManagerOptions
+  public typealias ArrayLiteralElement = LineSDKObjC.LoginManagerOptions
+  public typealias RawValue = Swift.Int
+}
+public struct LineSDKNotificationKey {
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKAccessToken : ObjectiveC.NSObject {
+  @objc public var value: Swift.String {
+    @objc get
+  }
+  @objc public var createdAt: Foundation.Date {
+    @objc get
+  }
+  @objc public var IDToken: LineSDKObjC.LineSDKJWT? {
+    @objc get
+  }
+  @objc public var permissions: [LineSDKObjC.LineSDKLoginPermission] {
+    @objc get
+  }
+  @objc public var expiresAt: Foundation.Date {
+    @objc get
+  }
+  @objc public var json: Swift.String? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension NSNotification.Name {
+  public static let LineSDKAccessTokenDidUpdate: Foundation.Notification.Name
+  public static let LineSDKAccessTokenDidRemove: Foundation.Notification.Name
+}
+extension LineSDKNotificationKey {
+  public static let oldAccessToken: Swift.String
+  public static let newAccessToken: Swift.String
+}
+@_hasMissingDesignatedInitializers public class AccessTokenStore {
+  public static var shared: LineSDKObjC.AccessTokenStore {
+    get
+  }
+  public var current: LineSDKObjC.AccessToken? {
+    get
+  }
+  @objc deinit
+}
+@objc @objcMembers public class LineSDKVideoMessage : LineSDKObjC.LineSDKMessage {
+  @objc final public let originalContentURL: Foundation.URL
+  @objc final public let previewImageURL: Foundation.URL
+  @objc public init?(originalContentURL: Foundation.URL, previewImageURL: Foundation.URL)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKMessageSendingToken : ObjectiveC.NSObject {
+  @objc public var token: Swift.String {
+    @objc get
+  }
+  @objc public var json: Swift.String? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct UserProfile : Swift.Codable {
+  public let userID: Swift.String
+  public let displayName: Swift.String
+  public let pictureURL: Foundation.URL?
+  public var pictureURLLarge: Foundation.URL? {
+    get
+  }
+  public var pictureURLSmall: Foundation.URL? {
+    get
+  }
+  public let statusMessage: Swift.String?
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct FlexImageComponent : Swift.Codable, LineSDKObjC.MessageActionContainer {
+  public let url: Foundation.URL
+  public var flex: LineSDKObjC.FlexMessageComponent.Ratio?
+  public var margin: LineSDKObjC.FlexMessageComponent.Margin?
+  public var alignment: LineSDKObjC.FlexMessageComponent.Alignment?
+  public var gravity: LineSDKObjC.FlexMessageComponent.Gravity?
+  public var size: LineSDKObjC.FlexMessageComponent.Size?
+  public var aspectRatio: LineSDKObjC.FlexMessageComponent.AspectRatio?
+  public var aspectMode: LineSDKObjC.FlexMessageComponent.AspectMode?
+  public var backgroundColor: LineSDKObjC.HexColor?
+  public var action: LineSDKObjC.MessageAction?
+  public init(url: Foundation.URL, flex: LineSDKObjC.FlexMessageComponent.Ratio? = nil, margin: LineSDKObjC.FlexMessageComponent.Margin? = nil, alignment: LineSDKObjC.FlexMessageComponent.Alignment? = nil, gravity: LineSDKObjC.FlexMessageComponent.Gravity? = nil, size: LineSDKObjC.FlexMessageComponent.Size? = nil, aspectRatio: LineSDKObjC.FlexMessageComponent.AspectRatio? = nil, aspectMode: LineSDKObjC.FlexMessageComponent.AspectMode? = nil, backgroundColor: LineSDKObjC.HexColor? = nil, action: LineSDKObjC.MessageActionConvertible? = nil) throws
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexImageComponent : LineSDKObjC.FlexMessageComponentConvertible {
+  public var component: LineSDKObjC.FlexMessageComponent {
+    get
+  }
+}
+public struct GetBotFriendshipStatusRequest : LineSDKObjC.Request {
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public init()
+  public struct Response : Swift.Codable {
+    public let friendFlag: Swift.Bool
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+}
+public struct AccessTokenVerifyResult : Swift.Codable {
+  public let channelID: Swift.String
+  public let permissions: [LineSDKObjC.LoginPermission]
+  public let expiresIn: Foundation.TimeInterval
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct PostMultisendMessagesWithTokenRequest : LineSDKObjC.Request {
+  public typealias Response = LineSDKObjC.Unit
+  public let messageToken: LineSDKObjC.MessageSendingToken
+  public let messages: [LineSDKObjC.Message]
+  public init(token: LineSDKObjC.MessageSendingToken, messages: [LineSDKObjC.MessageConvertible])
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+}
+@objc @objcMembers public class LineSDKAudioMessage : LineSDKObjC.LineSDKMessage {
+  @objc final public let originalContentURL: Foundation.URL
+  @objc final public let duration: Foundation.TimeInterval
+  @objc public init?(originalContentURL: Foundation.URL, duration: Foundation.TimeInterval)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public protocol ResponsePipelineTerminator : AnyObject {
+  func parse<T>(request: T, data: Foundation.Data) throws -> T.Response where T : LineSDKObjC.Request
+}
+public protocol ResponsePipelineRedirector : AnyObject {
+  func shouldApply<T>(request: T, data: Foundation.Data, response: Foundation.HTTPURLResponse) -> Swift.Bool where T : LineSDKObjC.Request
+  func redirect<T>(request: T, data: Foundation.Data, response: Foundation.HTTPURLResponse, done closure: @escaping (LineSDKObjC.ResponsePipelineRedirectorAction) throws -> Swift.Void) throws where T : LineSDKObjC.Request
+}
+public enum ResponsePipelineRedirectorAction {
+  case restart
+  case restartWithout(LineSDKObjC.ResponsePipeline)
+  case stop(Swift.Error)
+  case `continue`
+  case continueWith(Foundation.Data, Foundation.HTTPURLResponse)
+}
+public enum ResponsePipeline {
+  case terminator(LineSDKObjC.ResponsePipelineTerminator)
+  case redirector(LineSDKObjC.ResponsePipelineRedirector)
+}
+extension ResponsePipeline : Swift.Equatable {
+  public static func == (lhs: LineSDKObjC.ResponsePipeline, rhs: LineSDKObjC.ResponsePipeline) -> Swift.Bool
+}
+public class JSONParsePipeline : LineSDKObjC.ResponsePipelineTerminator {
+  final public let parser: Foundation.JSONDecoder
+  public init(_ parser: Foundation.JSONDecoder)
+  public func parse<T>(request: T, data: Foundation.Data) throws -> T.Response where T : LineSDKObjC.Request
+  @objc deinit
+}
+public struct FlexButtonComponent : Swift.Codable {
+  public enum Style : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case link
+    case primary
+    case secondary
+    public static let defaultCase: LineSDKObjC.FlexButtonComponent.Style
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public var action: LineSDKObjC.MessageAction
+  public var flex: LineSDKObjC.FlexMessageComponent.Ratio?
+  public var margin: LineSDKObjC.FlexMessageComponent.Margin?
+  public var height: LineSDKObjC.FlexMessageComponent.Height?
+  public var style: LineSDKObjC.FlexButtonComponent.Style?
+  public var color: LineSDKObjC.HexColor?
+  public var gravity: LineSDKObjC.FlexMessageComponent.Gravity?
+  public init(action: LineSDKObjC.MessageActionConvertible, flex: LineSDKObjC.FlexMessageComponent.Ratio? = nil, margin: LineSDKObjC.FlexMessageComponent.Margin? = nil, height: LineSDKObjC.FlexMessageComponent.Height? = nil, style: LineSDKObjC.FlexButtonComponent.Style? = nil, color: LineSDKObjC.HexColor? = nil, gravity: LineSDKObjC.FlexMessageComponent.Gravity? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexButtonComponent : LineSDKObjC.FlexMessageComponentConvertible {
+  public var component: LineSDKObjC.FlexMessageComponent {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKFlexMessageContainer : ObjectiveC.NSObject {
+  @objc public var bubbleContainer: LineSDKObjC.LineSDKFlexBubbleContainer? {
+    @objc get
+  }
+  @objc public var carouselContainer: LineSDKObjC.LineSDKFlexCarouselContainer? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum TemplateMessagePayload : Swift.Codable {
+  case buttons(LineSDKObjC.TemplateButtonsPayload)
+  case confirm(LineSDKObjC.TemplateConfirmPayload)
+  case carousel(LineSDKObjC.TemplateCarouselPayload)
+  case imageCarousel(LineSDKObjC.TemplateImageCarouselPayload)
+  case unknown
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public var asButtonsPayload: LineSDKObjC.TemplateButtonsPayload? {
+    get
+  }
+  public var asConfirmPayload: LineSDKObjC.TemplateConfirmPayload? {
+    get
+  }
+  public var asCarouselPayload: LineSDKObjC.TemplateCarouselPayload? {
+    get
+  }
+  public var asImageCarouselPayload: LineSDKObjC.TemplateImageCarouselPayload? {
+    get
+  }
+}
+extension TemplateMessagePayload : LineSDKObjC.TemplateMessageConvertible {
+  public var payload: LineSDKObjC.TemplateMessagePayload {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class Session {
+  public static var shared: LineSDKObjC.Session {
+    get
+  }
+  @discardableResult
+  public func send<T>(_ request: T, callbackQueue: LineSDKObjC.CallbackQueue = .currentMainOrAsync, completionHandler completion: ((Swift.Result<T.Response, LineSDKObjC.LineSDKError>) -> Swift.Void)? = nil) -> LineSDKObjC.SessionTask? where T : LineSDKObjC.Request
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class SessionTask {
+  @objc deinit
+}
+public struct TextMessage : Swift.Codable {
+  public var text: Swift.String
+  public var sender: LineSDKObjC.MessageSender?
+  public init(text: Swift.String, sender: LineSDKObjC.MessageSender? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension TextMessage : LineSDKObjC.MessageConvertible {
+  public var message: LineSDKObjC.Message {
+    get
+  }
+}
+public enum LineSDKError : Swift.Error {
+  public enum RequestErrorReason {
+    case missingURL
+    case lackOfAccessToken
+    case jsonEncodingFailed(Swift.Error)
+  }
+  public enum ResponseErrorReason {
+    public struct APIErrorDetail {
+      public let code: Swift.Int
+      public let error: LineSDKObjC.APIError?
+      public let raw: Foundation.HTTPURLResponse
+      public let rawString: Swift.String?
+    }
+    case URLSessionError(Swift.Error)
+    case nonHTTPURLResponse
+    case dataParsingFailed(Any.Type, Foundation.Data, Swift.Error?)
+    case invalidHTTPStatusAPIError(detail: LineSDKObjC.LineSDKError.ResponseErrorReason.APIErrorDetail)
+  }
+  public enum AuthorizeErrorReason {
+    case exhaustedLoginFlow
+    case malformedHierarchy
+    case userCancelled
+    case forceStopped
+    case callbackURLSchemeNotMatching
+    case invalidSourceApplication
+    case malformedRedirectURL(url: Foundation.URL, message: Swift.String?)
+    case invalidLineURLResultCode(Swift.String)
+    case lineClientError(code: Swift.String, message: Swift.String?)
+    case responseStateValueNotMatching(expected: Swift.String, got: Swift.String?)
+    case webLoginError(error: Swift.String, description: Swift.String?)
+    case keychainOperation(status: Darwin.OSStatus)
+    case invalidDataInKeychain
+    case lackOfIDToken(raw: Swift.String?)
+    case JWTPublicKeyNotFound(keyID: Swift.String?)
+    case cryptoError(error: LineSDKObjC.CryptoError)
+  }
+  public enum GeneralErrorReason {
+    case conversionError(string: Swift.String, encoding: Swift.String.Encoding)
+    case parameterError(parameterName: Swift.String, description: Swift.String)
+    case notOriginalTask(token: Swift.UInt)
+    case processDiscarded(LineSDKObjC.LoginProcess)
+  }
+  case requestFailed(reason: LineSDKObjC.LineSDKError.RequestErrorReason)
+  case responseFailed(reason: LineSDKObjC.LineSDKError.ResponseErrorReason)
+  case authorizeFailed(reason: LineSDKObjC.LineSDKError.AuthorizeErrorReason)
+  case generalError(reason: LineSDKObjC.LineSDKError.GeneralErrorReason)
+  case untypedError(error: Swift.Error)
+}
+extension LineSDKError {
+  public var isRequestError: Swift.Bool {
+    get
+  }
+  public var isResponseError: Swift.Bool {
+    get
+  }
+  public var isAuthorizeError: Swift.Bool {
+    get
+  }
+  public var isGeneralError: Swift.Bool {
+    get
+  }
+}
+extension LineSDKError {
+  public var isUserCancelled: Swift.Bool {
+    get
+  }
+  public var isBadRequest: Swift.Bool {
+    get
+  }
+  public var isRefreshTokenError: Swift.Bool {
+    get
+  }
+  public var isPermissionError: Swift.Bool {
+    get
+  }
+  public var isTokenError: Swift.Bool {
+    get
+  }
+  public func isResponseError(statusCode: Swift.Int) -> Swift.Bool
+  public var isURLSessionTimeOut: Swift.Bool {
+    get
+  }
+  public func isURLSessionErrorCode(sessionErrorCode code: Swift.Int) -> Swift.Bool
+}
+extension LineSDKError : Foundation.LocalizedError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+extension LineSDKError : Foundation.CustomNSError {
+  public var errorCode: Swift.Int {
+    get
+  }
+  public var errorUserInfo: [Swift.String : Any] {
+    get
+  }
+  public static var errorDomain: Swift.String {
+    get
+  }
+}
+public enum LineSDKErrorUserInfoKey : Swift.String {
+  case underlyingError
+  case statusCode
+  case resultCode
+  case type
+  case data
+  case APIError
+  case raw
+  case url
+  case message
+  case status
+  case text
+  case encoding
+  case parameterName
+  case reason
+  case index
+  case key
+  case got
+  case process
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+}
+@objc public enum LineSDKMessageShareTargetType : Swift.Int {
+  case friends
+  case groups
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public protocol LoginButtonDelegate : AnyObject {
+  func loginButtonDidStartLogin(_ button: LineSDKObjC.LoginButton)
+  func loginButton(_ button: LineSDKObjC.LoginButton, didSucceedLogin loginResult: LineSDKObjC.LoginResult)
+  func loginButton(_ button: LineSDKObjC.LoginButton, didFailLogin error: LineSDKObjC.LineSDKError)
+  func loginButton(_ button: LineSDKObjC.LoginButton, didFailLogin error: Swift.Error)
+}
+extension LoginButtonDelegate {
+  public func loginButtonDidStartLogin(_ button: LineSDKObjC.LoginButton)
+  public func loginButton(_ button: LineSDKObjC.LoginButton, didSucceedLogin loginResult: LineSDKObjC.LoginResult)
+  public func loginButton(_ button: LineSDKObjC.LoginButton, didFailLogin error: LineSDKObjC.LineSDKError)
+  public func loginButton(_ button: LineSDKObjC.LoginButton, didFailLogin error: Swift.Error)
+}
+@objc open class LoginButton : UIKit.UIButton {
+  public enum ButtonSize {
+    case small
+    case normal
+    public static func == (a: LineSDKObjC.LoginButton.ButtonSize, b: LineSDKObjC.LoginButton.ButtonSize) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+  }
+  weak public var delegate: LineSDKObjC.LoginButtonDelegate?
+  weak public var presentingViewController: UIKit.UIViewController?
+  public var permissions: Swift.Set<LineSDKObjC.LoginPermission>
+  public var parameters: LineSDKObjC.LoginManager.Parameters
+  public var buttonSize: LineSDKObjC.LoginButton.ButtonSize {
+    get
+    set
+  }
+  public var buttonText: Swift.String? {
+    get
+    set
+  }
+  @objc dynamic public init()
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic open var intrinsicContentSize: CoreGraphics.CGSize {
+    @objc get
+  }
+  @objc open func login()
+  @available(*, deprecated, message: "Convert this value into a `LoginManager.Parameters` and use `parameters` instead.")
+  public var options: LineSDKObjC.LoginManagerOptions
+  @objc deinit
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+}
+public enum FlexMessageComponent : Swift.Codable {
+  case box(LineSDKObjC.FlexBoxComponent)
+  case text(LineSDKObjC.FlexTextComponent)
+  case button(LineSDKObjC.FlexButtonComponent)
+  case image(LineSDKObjC.FlexImageComponent)
+  case filler(LineSDKObjC.FlexFillerComponent)
+  case icon(LineSDKObjC.FlexIconComponent)
+  case separator(LineSDKObjC.FlexSeparatorComponent)
+  case spacer(LineSDKObjC.FlexSpacerComponent)
+  case unknown
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public var asBoxComponent: LineSDKObjC.FlexBoxComponent? {
+    get
+  }
+  public var asTextComponent: LineSDKObjC.FlexTextComponent? {
+    get
+  }
+  public var asButtonComponent: LineSDKObjC.FlexButtonComponent? {
+    get
+  }
+  public var asImageComponent: LineSDKObjC.FlexImageComponent? {
+    get
+  }
+  public var asFillerComponent: LineSDKObjC.FlexFillerComponent? {
+    get
+  }
+  public var asIconComponent: LineSDKObjC.FlexIconComponent? {
+    get
+  }
+  public var asSeparatorComponent: LineSDKObjC.FlexSeparatorComponent? {
+    get
+  }
+  public var asSpacerComponent: LineSDKObjC.FlexSpacerComponent? {
+    get
+  }
+}
+extension FlexMessageComponent : LineSDKObjC.FlexMessageComponentConvertible {
+  public var component: LineSDKObjC.FlexMessageComponent {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKFlexBubbleContainer : LineSDKObjC.LineSDKFlexMessageContainer {
+  @objc public var header: LineSDKObjC.LineSDKFlexBoxComponent?
+  @objc public var hero: LineSDKObjC.LineSDKFlexImageComponent?
+  @objc public var body: LineSDKObjC.LineSDKFlexBoxComponent?
+  @objc public var footer: LineSDKObjC.LineSDKFlexBoxComponent?
+  @objc public var style: LineSDKObjC.LineSDKFlexBubbleContainerStyle?
+  @objc public var direction: LineSDKObjC.LineSDKFlexBubbleContainerDirection
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKFlexBubbleContainerStyle : ObjectiveC.NSObject {
+  @objc public var header: LineSDKObjC.LineSDKFlexBlockStyle?
+  @objc public var hero: LineSDKObjC.LineSDKFlexBlockStyle?
+  @objc public var body: LineSDKObjC.LineSDKFlexBlockStyle?
+  @objc public var footer: LineSDKObjC.LineSDKFlexBlockStyle?
+  @objc override dynamic public init()
+  convenience public init(_ value: LineSDKObjC.FlexBubbleContainer.Style)
+  @objc deinit
+}
+@objc public enum LineSDKFlexBubbleContainerDirection : Swift.Int {
+  case none
+  case leftToRight
+  case rightToLeft
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @objcMembers public class LineSDKFlexBlockStyle : ObjectiveC.NSObject {
+  @objc public var backgroundColor: LineSDKObjC.LineSDKHexColor?
+  @objc public var separator: Swift.Bool
+  @objc public var separatorColor: LineSDKObjC.LineSDKHexColor?
+  @objc public init(backgroundColor: LineSDKObjC.LineSDKHexColor?, separator: Swift.Bool, separatorColor: LineSDKObjC.LineSDKHexColor?)
+  convenience public init(_ value: LineSDKObjC.FlexBlockStyle)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct FlexFillerComponent : Swift.Codable {
+  public init()
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexFillerComponent : LineSDKObjC.FlexMessageComponentConvertible {
+  public var component: LineSDKObjC.FlexMessageComponent {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKGetBotFriendshipStatusResponse : ObjectiveC.NSObject {
+  @objc public var friendFlag: Swift.Bool {
+    @objc get
+  }
+  @objc public var json: Swift.String? {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKShareViewController : ObjectiveC.NSObject {
+  @objc public var viewController: UIKit.UIViewController {
+    @objc get
+  }
+  @objc public var shareNavigationBarTintColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc public var shareNavigationBarTextColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc public var shareStatusBarStyle: UIKit.UIStatusBarStyle {
+    @objc get
+    @objc set
+  }
+  @objc public var shareMessages: [LineSDKObjC.LineSDKMessage]? {
+    @objc get
+    @objc set
+  }
+  @objc public var shareProxyDelegate: LineSDKObjC.LineSDKShareViewControllerDelegate? {
+    @objc get
+    @objc set
+  }
+  @objc override dynamic public init()
+  @objc public static func localAuthorizationStatusForSendingMessage() -> [LineSDKObjC.LineSDKMessageShareAuthorizationStatus]
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKMessageAction : ObjectiveC.NSObject {
+  @objc public var URIAction: LineSDKObjC.LineSDKMessageURIAction? {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class LineSDKMessageURIAction : LineSDKObjC.LineSDKMessageAction {
+  @objc public var label: Swift.String?
+  @objc public var uri: Foundation.URL
+  @objc public init(label: Swift.String?, uri: Foundation.URL)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class LineSDKFlexFillerComponent : LineSDKObjC.LineSDKFlexMessageComponent {
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct LoginResult {
+  public let accessToken: LineSDKObjC.AccessToken
+  public let permissions: Swift.Set<LineSDKObjC.LoginPermission>
+  public let userProfile: LineSDKObjC.UserProfile?
+  public let friendshipStatusChanged: Swift.Bool?
+  public let IDTokenNonce: Swift.String?
+}
+extension LoginResult : Swift.Encodable {
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKHexColor : ObjectiveC.NSObject {
+  @objc public var rawValue: Swift.String {
+    @objc get
+  }
+  @objc public var color: UIKit.UIColor {
+    @objc get
+  }
+  @objc public init(_ color: UIKit.UIColor)
+  @objc public init(rawValue: Swift.String, defaultColor color: UIKit.UIColor)
+  @objc public func isEqualsToColor(_ another: LineSDKObjC.LineSDKHexColor) -> Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct FlexSeparatorComponent : Swift.Codable {
+  public var margin: LineSDKObjC.FlexMessageComponent.Margin?
+  public var color: LineSDKObjC.HexColor?
+  public init(margin: LineSDKObjC.FlexMessageComponent.Margin?, color: LineSDKObjC.HexColor?)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexSeparatorComponent : LineSDKObjC.FlexMessageComponentConvertible {
+  public var component: LineSDKObjC.FlexMessageComponent {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKLoginResult : ObjectiveC.NSObject {
+  @objc public var accessToken: LineSDKObjC.LineSDKAccessToken {
+    @objc get
+  }
+  @objc public var permissions: Swift.Set<LineSDKObjC.LineSDKLoginPermission> {
+    @objc get
+  }
+  @objc public var userProfile: LineSDKObjC.LineSDKUserProfile? {
+    @objc get
+  }
+  @objc public var friendshipStatusChanged: Foundation.NSNumber? {
+    @objc get
+  }
+  @objc public var IDTokenNonce: Swift.String? {
+    @objc get
+  }
+  @objc public var json: Swift.String? {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct FlexBoxComponent : Swift.Codable, LineSDKObjC.MessageActionContainer {
+  public let layout: LineSDKObjC.FlexMessageComponent.Layout
+  public var contents: [LineSDKObjC.FlexMessageComponent]
+  public var flex: LineSDKObjC.FlexMessageComponent.Ratio?
+  public var spacing: LineSDKObjC.FlexMessageComponent.Spacing?
+  public var margin: LineSDKObjC.FlexMessageComponent.Margin?
+  public var action: LineSDKObjC.MessageAction?
+  public init(layout: LineSDKObjC.FlexMessageComponent.Layout, contents: [LineSDKObjC.FlexMessageComponentConvertible] = [])
+  public init(layout: LineSDKObjC.FlexMessageComponent.Layout, flex: LineSDKObjC.FlexMessageComponent.Ratio? = nil, spacing: LineSDKObjC.FlexMessageComponent.Spacing? = nil, margin: LineSDKObjC.FlexMessageComponent.Margin? = nil, action: LineSDKObjC.MessageAction? = nil, contents: (() -> [LineSDKObjC.FlexMessageComponentConvertible]))
+  public mutating func addComponent(_ value: LineSDKObjC.FlexMessageComponentConvertible)
+  public mutating func removeFisrtComponent(where condition: (LineSDKObjC.FlexMessageComponent) throws -> Swift.Bool) rethrows -> LineSDKObjC.FlexMessageComponent?
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexBoxComponent : LineSDKObjC.FlexMessageComponentConvertible {
+  public var component: LineSDKObjC.FlexMessageComponent {
+    get
+  }
+}
+public struct FlexBubbleContainer : Swift.Codable {
+  public struct Style : Swift.Codable {
+    public var header: LineSDKObjC.FlexBlockStyle?
+    public var hero: LineSDKObjC.FlexBlockStyle?
+    public var body: LineSDKObjC.FlexBlockStyle?
+    public var footer: LineSDKObjC.FlexBlockStyle?
+    public init()
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+  public enum Direction : Swift.String, LineSDKObjC.DefaultEnumCodable {
+    case leftToRight
+    case rightToLeft
+    public static let defaultCase: LineSDKObjC.FlexBubbleContainer.Direction
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public var header: LineSDKObjC.FlexBoxComponent?
+  public var hero: LineSDKObjC.FlexImageComponent?
+  public var body: LineSDKObjC.FlexBoxComponent?
+  public var footer: LineSDKObjC.FlexBoxComponent?
+  public var styles: LineSDKObjC.FlexBubbleContainer.Style?
+  public var direction: LineSDKObjC.FlexBubbleContainer.Direction?
+  public init(header: LineSDKObjC.FlexBoxComponent? = nil, hero: LineSDKObjC.FlexImageComponent? = nil, body: LineSDKObjC.FlexBoxComponent? = nil, footer: LineSDKObjC.FlexBoxComponent? = nil, styles: LineSDKObjC.FlexBubbleContainer.Style? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexBubbleContainer : LineSDKObjC.FlexMessageConvertible {
+  public var container: LineSDKObjC.FlexMessageContainer {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKLoginProcess : ObjectiveC.NSObject {
+  @objc public func stop()
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKErrorConstant : ObjectiveC.NSObject {
+  @objc public static let errorDomain: Swift.String
+  @objc public static let cryptoErrorDomain: Swift.String
+  @objc public static let userInfoKeyUnderlyingError: Swift.String
+  @objc public static let userInfoKeyStatusCode: Swift.String
+  @objc public static let userInfoKeyResultCode: Swift.String
+  @objc public static let userInfoKeyType: Swift.String
+  @objc public static let userInfoKeyData: Swift.String
+  @objc public static let userInfoKeyAPIError: Swift.String
+  @objc public static let userInfoKeyRaw: Swift.String
+  @objc public static let userInfoKeyUrl: Swift.String
+  @objc public static let userInfoKeyMessage: Swift.String
+  @objc public static let userInfoKeyStatus: Swift.String
+  @objc public static let userInfoKeyText: Swift.String
+  @objc public static let userInfoKeyEncoding: Swift.String
+  @objc public static let userInfoKeyParameterName: Swift.String
+  @objc public static let userInfoKeyReason: Swift.String
+  @objc public static let userInfoKeyIndex: Swift.String
+  @objc public static let userInfoKeyKey: Swift.String
+  @objc public static let userInfoKeyGot: Swift.String
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct GetVerifyTokenRequest : LineSDKObjC.Request {
+  public let accessToken: Swift.String
+  public init(accessToken: Swift.String)
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: LineSDKObjC.Parameters? {
+    get
+  }
+  public typealias Response = LineSDKObjC.AccessTokenVerifyResult
+}
+@objc @objcMembers public class LineSDKLoginPermission : ObjectiveC.NSObject {
+  @objc public init(rawValue: Swift.String)
+  @objc public static func permissions(from string: Swift.String) -> Swift.Set<LineSDKObjC.LineSDKLoginPermission>
+  @objc public static let openID: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let profile: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let friends: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let groups: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let oneTimeShare: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let messageWrite: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let email: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let phone: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let gender: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let birthdate: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let address: LineSDKObjC.LineSDKLoginPermission
+  @objc public static let realName: LineSDKObjC.LineSDKLoginPermission
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct PostMultisendMessagesRequest : LineSDKObjC.Request {
+  public let userIDs: [Swift.String]
+  public let messages: [LineSDKObjC.Message]
+  public init(userIDs: [Swift.String], messages: [LineSDKObjC.MessageConvertible])
+  public let method: LineSDKObjC.HTTPMethod
+  public let path: Swift.String
+  public let authentication: LineSDKObjC.AuthenticateMethod
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+  public struct Response : Swift.Decodable {
+    public struct SendingResult : Swift.Decodable {
+      public let to: Swift.String
+      public let status: LineSDKObjC.MessageSendingStatus
+      public init(from decoder: Swift.Decoder) throws
+    }
+    public let results: [LineSDKObjC.PostMultisendMessagesRequest.Response.SendingResult]
+    public init(from decoder: Swift.Decoder) throws
+  }
+}
+public struct JWT : Swift.Equatable {
+  public static func == (lhs: LineSDKObjC.JWT, rhs: LineSDKObjC.JWT) -> Swift.Bool
+  public let payload: LineSDKObjC.JWT.Payload
+}
+extension JWT {
+  public struct Payload {
+  }
+}
+extension JWT.Payload {
+  public subscript<T>(key: Swift.String, type: T.Type) -> T? {
+    get
+  }
+  public var issuer: Swift.String? {
+    get
+  }
+  public var subject: Swift.String? {
+    get
+  }
+  public var audience: Swift.String? {
+    get
+  }
+  public var expiration: Foundation.Date? {
+    get
+  }
+  public var issueAt: Foundation.Date? {
+    get
+  }
+  public var amr: [Swift.String]? {
+    get
+  }
+}
+extension JWT.Payload {
+  public var name: Swift.String? {
+    get
+  }
+  public var pictureURL: Foundation.URL? {
+    get
+  }
+  public var email: Swift.String? {
+    get
+  }
+}
+@objc public protocol LineSDKLoginButtonDelegate : AnyObject {
+  @objc func loginButtonDidStartLogin(_ button: LineSDKObjC.LineSDKLoginButton)
+  @objc func loginButton(_ button: LineSDKObjC.LineSDKLoginButton, didSucceedLogin loginResult: LineSDKObjC.LineSDKLoginResult?)
+  @objc func loginButton(_ button: LineSDKObjC.LineSDKLoginButton, didFailLogin error: Swift.Error?)
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class LineSDKLoginButton : ObjectiveC.NSObject {
+  @objc public var button: UIKit.UIButton {
+    @objc get
+  }
+  @objc public enum LineSDKLoginButtonSize : Swift.Int {
+    case small
+    case normal
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc weak public var loginDelegate: LineSDKObjC.LineSDKLoginButtonDelegate?
+  @objc weak public var buttonPresentingViewController: UIKit.UIViewController?
+  @objc public var loginPermissions: Swift.Set<LineSDKObjC.LineSDKLoginPermission>
+  @objc public var loginManagerParameters: LineSDKObjC.LineSDKLoginManagerParameters
+  @objc public var buttonSizeValue: LineSDKObjC.LineSDKLoginButton.LineSDKLoginButtonSize {
+    @objc get
+    @objc set
+  }
+  @objc public var buttonTextValue: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc override dynamic public init()
+  @objc public func login()
+  @objc @available(*, deprecated, message: "Use `LineSDKLoginButton.loginManagerParameters` instead.")
+  public var loginManagerOptions: [LineSDKObjC.LineSDKLoginManagerOptions]?
+  @objc deinit
+}
+public enum HTTPMethod : Swift.String {
+  case get
+  case post
+  case put
+  case delete
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum AuthenticateMethod {
+  case none
+  case token
+  public static func == (a: LineSDKObjC.AuthenticateMethod, b: LineSDKObjC.AuthenticateMethod) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum ContentType {
+  case none
+  case formUrlEncoded
+  case json
+  public static func == (a: LineSDKObjC.ContentType, b: LineSDKObjC.ContentType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public typealias Parameters = [Swift.String : Any]
+public protocol Request {
+  associatedtype Response : Swift.Decodable
+  var method: LineSDKObjC.HTTPMethod { get }
+  var baseURL: Foundation.URL { get }
+  var path: Swift.String { get }
+  var pathQueries: [Foundation.URLQueryItem]? { get }
+  var parameters: LineSDKObjC.Parameters? { get }
+  var authentication: LineSDKObjC.AuthenticateMethod { get }
+  var contentType: LineSDKObjC.ContentType { get }
+  var adapters: [LineSDKObjC.RequestAdapter] { get }
+  var suffixAdapters: [LineSDKObjC.RequestAdapter]? { get }
+  var pipelines: [LineSDKObjC.ResponsePipeline] { get }
+  var prefixPipelines: [LineSDKObjC.ResponsePipeline]? { get }
+  var dataParser: LineSDKObjC.ResponsePipelineTerminator { get }
+  var timeout: Foundation.TimeInterval { get }
+  var cachePolicy: Foundation.NSURLRequest.CachePolicy { get }
+}
+extension Request {
+  public var baseURL: Foundation.URL {
+    get
+  }
+  public var cachePolicy: Foundation.NSURLRequest.CachePolicy {
+    get
+  }
+  public var adapters: [LineSDKObjC.RequestAdapter] {
+    get
+  }
+  public var pipelines: [LineSDKObjC.ResponsePipeline] {
+    get
+  }
+  public var pathQueries: [Foundation.URLQueryItem]? {
+    get
+  }
+  public var suffixAdapters: [LineSDKObjC.RequestAdapter]? {
+    get
+  }
+  public var prefixPipelines: [LineSDKObjC.ResponsePipeline]? {
+    get
+  }
+  public var dataParser: LineSDKObjC.ResponsePipelineTerminator {
+    get
+  }
+  public var contentType: LineSDKObjC.ContentType {
+    get
+  }
+  public var parameters: LineSDKObjC.Parameters? {
+    get
+  }
+  public var timeout: Foundation.TimeInterval {
+    get
+  }
+}
+public struct TemplateImageCarouselPayload : Swift.Codable {
+  public struct Column : Swift.Codable, LineSDKObjC.MessageActionContainer {
+    public let imageURL: Foundation.URL
+    public var action: LineSDKObjC.MessageAction?
+    public init(imageURL: Foundation.URL, action: LineSDKObjC.MessageActionConvertible?) throws
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+  public var columns: [LineSDKObjC.TemplateImageCarouselPayload.Column]
+  public init(columns: [LineSDKObjC.TemplateImageCarouselPayload.Column] = [])
+  public mutating func addColumn(_ column: LineSDKObjC.TemplateImageCarouselPayload.Column)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension TemplateImageCarouselPayload : LineSDKObjC.TemplateMessageConvertible {
+  public var payload: LineSDKObjC.TemplateMessagePayload {
+    get
+  }
+}
+public struct AudioMessage : Swift.Codable {
+  public let originalContentURL: Foundation.URL
+  public var duration: Foundation.TimeInterval? {
+    get
+    set
+  }
+  public init(originalContentURL: Foundation.URL, duration: Foundation.TimeInterval?) throws
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension AudioMessage : LineSDKObjC.MessageConvertible {
+  public var message: LineSDKObjC.Message {
+    get
+  }
+}
+public struct TemplateConfirmPayload : Swift.Codable {
+  public var text: Swift.String
+  public var confirmAction: LineSDKObjC.MessageAction {
+    get
+    set
+  }
+  public var cancelAction: LineSDKObjC.MessageAction {
+    get
+    set
+  }
+  public init(text: Swift.String, confirmAction: LineSDKObjC.MessageActionConvertible, cancelAction: LineSDKObjC.MessageActionConvertible)
+  public mutating func setConfirmAction(_ value: LineSDKObjC.MessageActionConvertible)
+  public mutating func setCancelAction(_ value: LineSDKObjC.MessageActionConvertible)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension TemplateConfirmPayload : LineSDKObjC.TemplateMessageConvertible {
+  public var payload: LineSDKObjC.TemplateMessagePayload {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class LineSDKLoginManager : ObjectiveC.NSObject {
+  @objc public static let sharedManager: LineSDKObjC.LineSDKLoginManager
+  @objc public var currentProcess: LineSDKObjC.LineSDKLoginProcess? {
+    @objc get
+  }
+  @objc public var isSetupFinished: Swift.Bool {
+    @objc get
+  }
+  @objc public var isAuthorized: Swift.Bool {
+    @objc get
+  }
+  @objc public var isAuthorizing: Swift.Bool {
+    @objc get
+  }
+  @objc @available(*, deprecated, message: "Set `preferredWebPageLanguage` in `LineSDKLoginManagerParameters` instead.")
+  public var preferredWebPageLanguage: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc public func setup(channelID: Swift.String, universalLinkURL: Foundation.URL?)
+  @objc @discardableResult
+  public func login(permissions: Swift.Set<LineSDKObjC.LineSDKLoginPermission>?, inViewController viewController: UIKit.UIViewController?, completionHandler completion: @escaping (LineSDKObjC.LineSDKLoginResult?, Swift.Error?) -> Swift.Void) -> LineSDKObjC.LineSDKLoginProcess?
+  @objc @discardableResult
+  public func login(permissions: Swift.Set<LineSDKObjC.LineSDKLoginPermission>?, inViewController viewController: UIKit.UIViewController?, parameters: LineSDKObjC.LineSDKLoginManagerParameters, completionHandler completion: @escaping (LineSDKObjC.LineSDKLoginResult?, Swift.Error?) -> Swift.Void) -> LineSDKObjC.LineSDKLoginProcess?
+  @objc public func logout(completionHandler completion: @escaping (Swift.Error?) -> Swift.Void)
+  @objc public func application(_ app: UIKit.UIApplication, open url: Foundation.URL, options: [UIKit.UIApplication.OpenURLOptionsKey : Any] = [:]) -> Swift.Bool
+  @objc @available(*, deprecated, message: "Convert the `options` to a `LoginManager.Parameters` value and\nuse `login(permissions:inViewController:parameters:completionHandler:)` instead.\")")
+  @discardableResult
+  public func login(permissions: Swift.Set<LineSDKObjC.LineSDKLoginPermission>?, inViewController viewController: UIKit.UIViewController?, options: [LineSDKObjC.LineSDKLoginManagerOptions]?, completionHandler completion: @escaping (LineSDKObjC.LineSDKLoginResult?, Swift.Error?) -> Swift.Void) -> LineSDKObjC.LineSDKLoginProcess?
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct FlexCarouselContainer : Swift.Codable {
+  public var contents: [LineSDKObjC.FlexBubbleContainer]
+  public init(contents: [LineSDKObjC.FlexBubbleContainer] = [])
+  public mutating func addBubble(_ value: LineSDKObjC.FlexBubbleContainer)
+  public mutating func removeFirstBubble(where condition: (LineSDKObjC.FlexBubbleContainer) throws -> Swift.Bool) rethrows -> LineSDKObjC.FlexBubbleContainer?
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension FlexCarouselContainer : LineSDKObjC.FlexMessageConvertible {
+  public var container: LineSDKObjC.FlexMessageContainer {
+    get
+  }
+}
+public enum MessageShareTargetType : Swift.Int, Swift.CaseIterable {
+  case friends
+  case groups
+  public typealias AllCases = [LineSDKObjC.MessageShareTargetType]
+  public static var allCases: [LineSDKObjC.MessageShareTargetType] {
+    get
+  }
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+}
+extension LineSDKObjC.GetFriendsRequest.Sort : Swift.Equatable {}
+extension LineSDKObjC.GetFriendsRequest.Sort : Swift.Hashable {}
+extension LineSDKObjC.GetFriendsRequest.Sort : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKTemplateMessagePayloadImageAspectRatio : Swift.Equatable {}
+extension LineSDKObjC.LineSDKTemplateMessagePayloadImageAspectRatio : Swift.Hashable {}
+extension LineSDKObjC.LineSDKTemplateMessagePayloadImageAspectRatio : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKTemplateMessagePayloadImageContentMode : Swift.Equatable {}
+extension LineSDKObjC.LineSDKTemplateMessagePayloadImageContentMode : Swift.Hashable {}
+extension LineSDKObjC.LineSDKTemplateMessagePayloadImageContentMode : Swift.RawRepresentable {}
+extension LineSDKObjC.TemplateMessagePayload.ImageAspectRatio : Swift.Equatable {}
+extension LineSDKObjC.TemplateMessagePayload.ImageAspectRatio : Swift.Hashable {}
+extension LineSDKObjC.TemplateMessagePayload.ImageContentMode : Swift.Equatable {}
+extension LineSDKObjC.TemplateMessagePayload.ImageContentMode : Swift.Hashable {}
+extension LineSDKObjC.FlexMessageComponent.Layout : Swift.Equatable {}
+extension LineSDKObjC.FlexMessageComponent.Layout : Swift.Hashable {}
+extension LineSDKObjC.FlexMessageComponent.Margin : Swift.Equatable {}
+extension LineSDKObjC.FlexMessageComponent.Margin : Swift.Hashable {}
+extension LineSDKObjC.FlexMessageComponent.Size : Swift.Equatable {}
+extension LineSDKObjC.FlexMessageComponent.Size : Swift.Hashable {}
+extension LineSDKObjC.FlexMessageComponent.Alignment : Swift.Equatable {}
+extension LineSDKObjC.FlexMessageComponent.Alignment : Swift.Hashable {}
+extension LineSDKObjC.FlexMessageComponent.Gravity : Swift.Equatable {}
+extension LineSDKObjC.FlexMessageComponent.Gravity : Swift.Hashable {}
+extension LineSDKObjC.FlexMessageComponent.Weight : Swift.Equatable {}
+extension LineSDKObjC.FlexMessageComponent.Weight : Swift.Hashable {}
+extension LineSDKObjC.FlexMessageComponent.Height : Swift.Equatable {}
+extension LineSDKObjC.FlexMessageComponent.Height : Swift.Hashable {}
+extension LineSDKObjC.FlexMessageComponent.AspectRatio : Swift.Equatable {}
+extension LineSDKObjC.FlexMessageComponent.AspectRatio : Swift.Hashable {}
+extension LineSDKObjC.FlexMessageComponent.AspectMode : Swift.Equatable {}
+extension LineSDKObjC.FlexMessageComponent.AspectMode : Swift.Hashable {}
+extension LineSDKObjC.GetShareFriendsRequest.Sort : Swift.Equatable {}
+extension LineSDKObjC.GetShareFriendsRequest.Sort : Swift.Hashable {}
+extension LineSDKObjC.GetShareFriendsRequest.Sort : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKGetFriendsRequestSort : Swift.Equatable {}
+extension LineSDKObjC.LineSDKGetFriendsRequestSort : Swift.Hashable {}
+extension LineSDKObjC.LineSDKGetFriendsRequestSort : Swift.RawRepresentable {}
+extension LineSDKObjC.LoginManager.BotPrompt : Swift.Equatable {}
+extension LineSDKObjC.LoginManager.BotPrompt : Swift.Hashable {}
+extension LineSDKObjC.LoginManager.BotPrompt : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexButtonComponentStyle : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexButtonComponentStyle : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexButtonComponentStyle : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentLayout : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentLayout : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentLayout : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentSpacing : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentSpacing : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentSpacing : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentMargin : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentMargin : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentMargin : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentSize : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentSize : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentSize : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentAlignment : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentAlignment : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentAlignment : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentGravity : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentGravity : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentGravity : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentWeight : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentWeight : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentWeight : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentHeight : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentHeight : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentHeight : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentAspectRatio : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentAspectRatio : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentAspectRatio : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentAspectMode : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentAspectMode : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexMessageComponentAspectMode : Swift.RawRepresentable {}
+extension LineSDKObjC.FlexButtonComponent.Style : Swift.Equatable {}
+extension LineSDKObjC.FlexButtonComponent.Style : Swift.Hashable {}
+extension LineSDKObjC.LineSDKErrorUserInfoKey : Swift.Equatable {}
+extension LineSDKObjC.LineSDKErrorUserInfoKey : Swift.Hashable {}
+extension LineSDKObjC.LineSDKErrorUserInfoKey : Swift.RawRepresentable {}
+extension LineSDKObjC.LineSDKMessageShareTargetType : Swift.Equatable {}
+extension LineSDKObjC.LineSDKMessageShareTargetType : Swift.Hashable {}
+extension LineSDKObjC.LineSDKMessageShareTargetType : Swift.RawRepresentable {}
+extension LineSDKObjC.LoginButton.ButtonSize : Swift.Equatable {}
+extension LineSDKObjC.LoginButton.ButtonSize : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexBubbleContainerDirection : Swift.Equatable {}
+extension LineSDKObjC.LineSDKFlexBubbleContainerDirection : Swift.Hashable {}
+extension LineSDKObjC.LineSDKFlexBubbleContainerDirection : Swift.RawRepresentable {}
+extension LineSDKObjC.FlexBubbleContainer.Direction : Swift.Equatable {}
+extension LineSDKObjC.FlexBubbleContainer.Direction : Swift.Hashable {}
+extension LineSDKObjC.LineSDKLoginButton.LineSDKLoginButtonSize : Swift.Equatable {}
+extension LineSDKObjC.LineSDKLoginButton.LineSDKLoginButtonSize : Swift.Hashable {}
+extension LineSDKObjC.LineSDKLoginButton.LineSDKLoginButtonSize : Swift.RawRepresentable {}
+extension LineSDKObjC.HTTPMethod : Swift.Equatable {}
+extension LineSDKObjC.HTTPMethod : Swift.Hashable {}
+extension LineSDKObjC.HTTPMethod : Swift.RawRepresentable {}
+extension LineSDKObjC.AuthenticateMethod : Swift.Equatable {}
+extension LineSDKObjC.AuthenticateMethod : Swift.Hashable {}
+extension LineSDKObjC.ContentType : Swift.Equatable {}
+extension LineSDKObjC.ContentType : Swift.Hashable {}
+extension LineSDKObjC.MessageShareTargetType : Swift.Equatable {}
+extension LineSDKObjC.MessageShareTargetType : Swift.Hashable {}
+extension LineSDKObjC.MessageShareTargetType : Swift.RawRepresentable {}

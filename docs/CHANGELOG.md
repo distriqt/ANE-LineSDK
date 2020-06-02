@@ -3,6 +3,13 @@
 ###### 2020.06.02 [v3.1.073]
 
 ```
+Updated iOS Frameworks for v3.1
+```
+
+
+###### 2020.06.02 [v3.1.073]
+
+```
 Updated iOS library to the latest release (#7)
 ```
 
