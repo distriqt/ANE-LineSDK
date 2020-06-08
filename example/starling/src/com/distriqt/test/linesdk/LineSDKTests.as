@@ -64,15 +64,6 @@ package com.distriqt.test.linesdk
 				{
 					log( "LineSDK Version:   " + LineSDK.instance.version );
 				}
-				
-				
-				if (FacebookAPI.isSupported)
-				{
-					log( "FacebookAPI version: " + FacebookAPI.service.version );
-					
-					FacebookAPI.service.initialiseApp( "1879447352273895", "" );
-					
-				}
 			}
 			catch (e:Error)
 			{
