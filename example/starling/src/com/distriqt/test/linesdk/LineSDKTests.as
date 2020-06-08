@@ -15,6 +15,7 @@
 package com.distriqt.test.linesdk
 {
 	import com.distriqt.extension.core.Core;
+	import com.distriqt.extension.facebookapi.FacebookAPI;
 	import com.distriqt.extension.linesdk.LineAccessToken;
 	import com.distriqt.extension.linesdk.LineProfile;
 	import com.distriqt.extension.linesdk.LineSDK;
@@ -62,6 +63,15 @@ package com.distriqt.test.linesdk
 				if (LineSDK.isSupported)
 				{
 					log( "LineSDK Version:   " + LineSDK.instance.version );
+				}
+				
+				
+				if (FacebookAPI.isSupported)
+				{
+					log( "FacebookAPI version: " + FacebookAPI.service.version );
+					
+					FacebookAPI.service.initialiseApp( "1879447352273895", "" );
+					
 				}
 			}
 			catch (e:Error)

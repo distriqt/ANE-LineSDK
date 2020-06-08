@@ -1,5 +1,12 @@
 
 
+###### 2020.06.08 [v3.1.076]
+
+```
+Fixed iOS crash relating to nil reference on return from login (#7)
+```
+
+
 ###### 2020.06.02 [v3.1.073]
 
 ```

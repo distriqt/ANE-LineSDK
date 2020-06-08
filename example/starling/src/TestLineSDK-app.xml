@@ -54,6 +54,8 @@
                     <key>CFBundleURLSchemes</key>
                     <array>
                         <string>line3rdp.com.distriqt.test</string>
+						<string>fb1879447352273895</string>
+						<string>distriqtTestApp</string>
                     </array>
                 </dict>
             </array>
@@ -62,7 +64,31 @@
             <array>
                 <string>lineauth2</string>
                 <string>line3rdp.com.distriqt.test</string>
+
+				<string>fb</string>
+				<string>fbapi</string>
+				<string>fb-messenger-share-api</string>
+				<string>fb-messenger-api</string>
+				<string>fbauth2</string>
+				<string>fbshareextension</string>
+				<string>fb1879447352273895</string>
             </array>
+
+
+			<key>FacebookAppID</key>
+			<string>1879447352273895</string>
+			<key>FacebookDisplayName</key>
+			<string>distriqt test application</string>
+
+			<key>FacebookAutoLogAppEventsEnabled</key>
+			<false/>
+			<key>FacebookAdvertiserIDCollectionEnabled</key>
+			<false/>
+
+			<key>NSPhotoLibraryUsageDescription</key>
+			<string>Access to photo library is required to save images and videos.</string>
+            <key>NSPhotoLibraryAddUsageDescription</key>
+			<string>Access to photo library is required to save images and videos.</string>
 
         ]]></InfoAdditions>
         <requestedDisplayResolution>high</requestedDisplayResolution>
@@ -122,6 +148,11 @@
         <extensionID>androidx.core</extensionID>
         <extensionID>androidx.appcompat</extensionID>
         <extensionID>androidx.browser</extensionID>
+
+
+        <extensionID>com.distriqt.Bolts</extensionID>
+        <extensionID>com.distriqt.FacebookAPI</extensionID>
+
 	</extensions>
 	
 </application>
